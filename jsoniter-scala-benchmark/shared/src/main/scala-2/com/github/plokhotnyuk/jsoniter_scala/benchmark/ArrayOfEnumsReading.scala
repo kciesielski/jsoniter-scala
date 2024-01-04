@@ -4,7 +4,6 @@ import com.github.plokhotnyuk.jsoniter_scala.benchmark.SuitEnum.SuitEnum
 import org.openjdk.jmh.annotations.Benchmark
 
 class ArrayOfEnumsReading extends ArrayOfEnumsBenchmark {
-  @Benchmark
   def avSystemGenCodec(): Array[SuitEnum] = {
     import com.avsystem.commons.serialization.json._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.AVSystemCodecs._
@@ -13,7 +12,6 @@ class ArrayOfEnumsReading extends ArrayOfEnumsBenchmark {
     JsonStringInput.read[Array[SuitEnum]](new String(jsonBytes, UTF_8))
   }
 
-  @Benchmark
   def borer(): Array[SuitEnum] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.BorerJsonEncodersDecoders._
     import io.bullet.borer.Json
@@ -21,7 +19,6 @@ class ArrayOfEnumsReading extends ArrayOfEnumsBenchmark {
     Json.decode(jsonBytes).to[Array[SuitEnum]].value
   }
 
-  @Benchmark
   def circe(): Array[SuitEnum] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceEncodersDecoders._
     import io.circe.jawn._
@@ -29,7 +26,6 @@ class ArrayOfEnumsReading extends ArrayOfEnumsBenchmark {
     decodeByteArray[Array[SuitEnum]](jsonBytes).fold(throw _, identity)
   }
 
-  @Benchmark
   def circeJsoniter(): Array[SuitEnum] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceEncodersDecoders._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
@@ -39,14 +35,12 @@ class ArrayOfEnumsReading extends ArrayOfEnumsBenchmark {
     Decoder[Array[SuitEnum]].decodeJson(readFromArray(jsonBytes)).fold(throw _, identity)
   }
 
-  @Benchmark
   def jacksonScala(): Array[SuitEnum] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
 
     jacksonMapper.readValue[Array[SuitEnum]](jsonBytes)
   }
 
-  @Benchmark
   def json4sJackson(): Array[SuitEnum] = {
     import org.json4s._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.Json4sJacksonMappers._
@@ -55,7 +49,6 @@ class ArrayOfEnumsReading extends ArrayOfEnumsBenchmark {
     mapper.readValue[JValue](jsonBytes, jValueType).extract[Array[SuitEnum]]
   }
 
-  @Benchmark
   def json4sNative(): Array[SuitEnum] = {
     import org.json4s._
     import org.json4s.native.JsonMethods._
@@ -65,7 +58,6 @@ class ArrayOfEnumsReading extends ArrayOfEnumsBenchmark {
     parse(new String(jsonBytes, UTF_8)).extract[Array[SuitEnum]]
   }
 
-  @Benchmark
   def jsoniterScala(): Array[SuitEnum] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -73,7 +65,6 @@ class ArrayOfEnumsReading extends ArrayOfEnumsBenchmark {
     readFromArray[Array[SuitEnum]](jsonBytes)
   }
 
-  @Benchmark
   def playJson(): Array[SuitEnum] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
     import play.api.libs.json.Json
@@ -81,7 +72,6 @@ class ArrayOfEnumsReading extends ArrayOfEnumsBenchmark {
     Json.parse(jsonBytes).as[Array[SuitEnum]]
   }
 
-  @Benchmark
   def playJsonJsoniter(): Array[SuitEnum] = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
@@ -90,7 +80,6 @@ class ArrayOfEnumsReading extends ArrayOfEnumsBenchmark {
     readFromArray(jsonBytes).as[Array[SuitEnum]]
   }
 
-  @Benchmark
   def sprayJson(): Array[SuitEnum] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.SprayFormats._
     import spray.json._
@@ -98,14 +87,12 @@ class ArrayOfEnumsReading extends ArrayOfEnumsBenchmark {
     JsonParser(jsonBytes).convertTo[Array[SuitEnum]]
   }
 
-  @Benchmark
   def uPickle(): Array[SuitEnum] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.UPickleReaderWriters._
 
     read[Array[SuitEnum]](jsonBytes)
   }
 
-  @Benchmark
   def weePickle(): Array[SuitEnum] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.WeePickleFromTos._
     import com.rallyhealth.weejson.v1.jackson.FromJson
@@ -114,7 +101,6 @@ class ArrayOfEnumsReading extends ArrayOfEnumsBenchmark {
     FromJson(jsonBytes).transform(ToScala[Array[SuitEnum]])
   }
 
-  @Benchmark
   def zioJson(): Array[SuitEnum] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.ZioJSONEncoderDecoders._
     import zio.json._

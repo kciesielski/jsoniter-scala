@@ -3,7 +3,6 @@ package com.github.plokhotnyuk.jsoniter_scala.benchmark
 import org.openjdk.jmh.annotations.Benchmark
 
 class GitHubActionsAPIReading extends GitHubActionsAPIBenchmark {
-  @Benchmark
   def avSystemGenCodec(): GitHubActionsAPI.Response = {
     import com.avsystem.commons.serialization.json._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.AVSystemCodecs._
@@ -12,7 +11,6 @@ class GitHubActionsAPIReading extends GitHubActionsAPIBenchmark {
     JsonStringInput.read[GitHubActionsAPI.Response](new String(jsonBytes, UTF_8))
   }
 
-  @Benchmark
   def borer(): GitHubActionsAPI.Response = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.BorerJsonEncodersDecoders._
     import io.bullet.borer.Json
@@ -20,7 +18,6 @@ class GitHubActionsAPIReading extends GitHubActionsAPIBenchmark {
     Json.decode(jsonBytes).to[GitHubActionsAPI.Response].value
   }
 
-  @Benchmark
   def circe(): GitHubActionsAPI.Response = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceEncodersDecoders._
     import io.circe.jawn._
@@ -28,7 +25,6 @@ class GitHubActionsAPIReading extends GitHubActionsAPIBenchmark {
     decodeByteArray[GitHubActionsAPI.Response](jsonBytes).fold(throw _, identity)
   }
 
-  @Benchmark
   def circeJsoniter(): GitHubActionsAPI.Response = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -37,14 +33,12 @@ class GitHubActionsAPIReading extends GitHubActionsAPIBenchmark {
     Decoder[GitHubActionsAPI.Response].decodeJson(readFromArray(jsonBytes)).fold(throw _, identity)
   }
 
-  @Benchmark
   def jacksonScala(): GitHubActionsAPI.Response = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
 
     jacksonMapper.readValue[GitHubActionsAPI.Response](jsonBytes)
   }
 
-  @Benchmark
   def json4sJackson(): GitHubActionsAPI.Response = {
     import org.json4s._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.Json4sJacksonMappers._
@@ -53,7 +47,6 @@ class GitHubActionsAPIReading extends GitHubActionsAPIBenchmark {
     mapper.readValue[JValue](jsonBytes, jValueType).extract[GitHubActionsAPI.Response]
   }
 
-  @Benchmark
   def json4sNative(): GitHubActionsAPI.Response = {
     import org.json4s._
     import org.json4s.native.JsonMethods._
@@ -63,7 +56,6 @@ class GitHubActionsAPIReading extends GitHubActionsAPIBenchmark {
     parse(new String(jsonBytes, UTF_8)).extract[GitHubActionsAPI.Response]
   }
 
-  @Benchmark
   def jsoniterScala(): GitHubActionsAPI.Response = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -71,7 +63,6 @@ class GitHubActionsAPIReading extends GitHubActionsAPIBenchmark {
     readFromArray[GitHubActionsAPI.Response](jsonBytes)
   }
 
-  @Benchmark
   def playJson(): GitHubActionsAPI.Response = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
     import play.api.libs.json.Json
@@ -79,7 +70,6 @@ class GitHubActionsAPIReading extends GitHubActionsAPIBenchmark {
     Json.parse(jsonBytes).as[GitHubActionsAPI.Response]
   }
 
-  @Benchmark
   def playJsonJsoniter(): GitHubActionsAPI.Response = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonJsoniterFormats._
@@ -88,7 +78,6 @@ class GitHubActionsAPIReading extends GitHubActionsAPIBenchmark {
     readFromArray(jsonBytes).as[GitHubActionsAPI.Response]
   }
 
-  @Benchmark
   def smithy4sJson(): GitHubActionsAPI.Response = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.Smithy4sJCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -96,7 +85,6 @@ class GitHubActionsAPIReading extends GitHubActionsAPIBenchmark {
     readFromArray[GitHubActionsAPI.Response](jsonBytes)
   }
 
-  @Benchmark
   def sprayJson(): GitHubActionsAPI.Response = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.SprayFormats._
     import spray.json.JsonParser
@@ -104,14 +92,12 @@ class GitHubActionsAPIReading extends GitHubActionsAPIBenchmark {
     JsonParser(jsonBytes).convertTo[GitHubActionsAPI.Response]
   }
 
-  @Benchmark
   def uPickle(): GitHubActionsAPI.Response = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.UPickleReaderWriters._
 
     read[GitHubActionsAPI.Response](jsonBytes)
   }
 
-  @Benchmark
   def weePickle(): GitHubActionsAPI.Response = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.WeePickleFromTos._
     import com.rallyhealth.weejson.v1.jackson.FromJson
@@ -120,7 +106,6 @@ class GitHubActionsAPIReading extends GitHubActionsAPIBenchmark {
     FromJson(jsonBytes).transform(ToScala[GitHubActionsAPI.Response])
   }
 
-  @Benchmark
   def zioJson(): GitHubActionsAPI.Response = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.ZioJSONEncoderDecoders._
     import zio.json._

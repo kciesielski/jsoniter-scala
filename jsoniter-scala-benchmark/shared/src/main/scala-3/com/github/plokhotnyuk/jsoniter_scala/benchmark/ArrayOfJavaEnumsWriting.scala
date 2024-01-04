@@ -3,7 +3,6 @@ package com.github.plokhotnyuk.jsoniter_scala.benchmark
 import org.openjdk.jmh.annotations.Benchmark
 
 class ArrayOfJavaEnumsWriting extends ArrayOfJavaEnumsBenchmark {
-  @Benchmark
   def borer(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.BorerJsonEncodersDecoders._
     import io.bullet.borer.Json
@@ -11,7 +10,6 @@ class ArrayOfJavaEnumsWriting extends ArrayOfJavaEnumsBenchmark {
     Json.encode(obj).toByteArray
   }
 
-  @Benchmark
   def circe(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceEncodersDecoders._
     import io.circe.syntax._
@@ -20,7 +18,6 @@ class ArrayOfJavaEnumsWriting extends ArrayOfJavaEnumsBenchmark {
     printer.print(obj.asJson).getBytes(UTF_8)
   }
 
-  @Benchmark
   def circeJsoniter(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceEncodersDecoders._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
@@ -30,14 +27,12 @@ class ArrayOfJavaEnumsWriting extends ArrayOfJavaEnumsBenchmark {
     writeToArray(obj.asJson)
   }
 
-  @Benchmark
   def jacksonScala(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
 
     jacksonMapper.writeValueAsBytes(obj)
   }
 
-  @Benchmark
   def json4sJackson(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CommonJson4sFormats._
     import org.json4s._
@@ -46,7 +41,6 @@ class ArrayOfJavaEnumsWriting extends ArrayOfJavaEnumsBenchmark {
     mapper.writeValueAsBytes(Extraction.decompose(obj))
   }
 
-  @Benchmark
   def json4sNative(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CommonJson4sFormats._
     import org.json4s.native.Serialization._
@@ -55,7 +49,6 @@ class ArrayOfJavaEnumsWriting extends ArrayOfJavaEnumsBenchmark {
     write(obj).getBytes(UTF_8)
   }
 
-  @Benchmark
   def jsoniterScala(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -63,7 +56,6 @@ class ArrayOfJavaEnumsWriting extends ArrayOfJavaEnumsBenchmark {
     writeToArray(obj)
   }
 
-  @Benchmark
   def jsoniterScalaPrealloc(): Int = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -71,7 +63,6 @@ class ArrayOfJavaEnumsWriting extends ArrayOfJavaEnumsBenchmark {
     writeToSubArray(obj, preallocatedBuf, 64, preallocatedBuf.length)
   }
 
-  @Benchmark
   def playJson(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
     import play.api.libs.json.Json
@@ -79,7 +70,6 @@ class ArrayOfJavaEnumsWriting extends ArrayOfJavaEnumsBenchmark {
     Json.toBytes(Json.toJson(obj))
   }
 
-  @Benchmark
   def playJsonJsoniter(): Array[Byte] = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
@@ -89,7 +79,6 @@ class ArrayOfJavaEnumsWriting extends ArrayOfJavaEnumsBenchmark {
     writeToArray(Json.toJson(obj))
   }
 
-  @Benchmark
   def sprayJson(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.SprayFormats._
     import spray.json._
@@ -98,14 +87,12 @@ class ArrayOfJavaEnumsWriting extends ArrayOfJavaEnumsBenchmark {
     obj.toJson.compactPrint.getBytes(UTF_8)
   }
 
-  @Benchmark
   def uPickle(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.UPickleReaderWriters._
 
     writeToByteArray(obj)
   }
 
-  @Benchmark
   def weePickle(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.WeePickleFromTos._
     import com.rallyhealth.weepickle.v1.WeePickle.FromScala

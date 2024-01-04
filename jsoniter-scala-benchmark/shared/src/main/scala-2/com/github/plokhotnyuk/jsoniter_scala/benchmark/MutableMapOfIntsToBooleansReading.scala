@@ -4,7 +4,6 @@ import org.openjdk.jmh.annotations.Benchmark
 import scala.collection.mutable
 
 class MutableMapOfIntsToBooleansReading extends MutableMapOfIntsToBooleansBenchmark {
-  @Benchmark
   def avSystemGenCodec(): mutable.Map[Int, Boolean] = {
     import com.avsystem.commons.serialization.json._
     import java.nio.charset.StandardCharsets.UTF_8
@@ -12,14 +11,12 @@ class MutableMapOfIntsToBooleansReading extends MutableMapOfIntsToBooleansBenchm
     JsonStringInput.read[mutable.Map[Int, Boolean]](new String(jsonBytes, UTF_8))
   }
 
-  @Benchmark
   def circe(): mutable.Map[Int, Boolean] = {
     import io.circe.jawn._
 
     decodeByteArray[mutable.Map[Int, Boolean]](jsonBytes).fold(throw _, identity)
   }
 
-  @Benchmark
   def circeJsoniter(): mutable.Map[Int, Boolean] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -28,14 +25,12 @@ class MutableMapOfIntsToBooleansReading extends MutableMapOfIntsToBooleansBenchm
     Decoder[mutable.Map[Int, Boolean]].decodeJson(readFromArray(jsonBytes)).fold(throw _, identity)
   }
 
-  @Benchmark
   def dslJsonScala(): mutable.Map[Int, Boolean] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.DslPlatformJson._
 
     dslJsonDecode[mutable.Map[Int, Boolean]](jsonBytes)
   }
 
-  @Benchmark
   def jacksonScala(): mutable.Map[Int, Boolean] = {
     import com.fasterxml.jackson.module.scala.JavaTypeable.gen2JavaTypeable
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
@@ -43,7 +38,6 @@ class MutableMapOfIntsToBooleansReading extends MutableMapOfIntsToBooleansBenchm
     jacksonMapper.readValue[mutable.Map[Int, Boolean]](jsonBytes)
   }
 
-  @Benchmark
   def json4sJackson(): mutable.Map[Int, Boolean] = {
     import org.json4s._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.Json4sJacksonMappers._
@@ -52,7 +46,6 @@ class MutableMapOfIntsToBooleansReading extends MutableMapOfIntsToBooleansBenchm
     mapper.readValue[JValue](jsonBytes, jValueType).extract[mutable.Map[Int, Boolean]]
   }
 
-  @Benchmark
   def json4sNative(): mutable.Map[Int, Boolean] = {
     import org.json4s._
     import org.json4s.native.JsonMethods._
@@ -62,7 +55,6 @@ class MutableMapOfIntsToBooleansReading extends MutableMapOfIntsToBooleansBenchm
     parse(new String(jsonBytes, UTF_8)).extract[mutable.Map[Int, Boolean]]
   }
 
-  @Benchmark
   def jsoniterScala(): mutable.Map[Int, Boolean] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -70,7 +62,6 @@ class MutableMapOfIntsToBooleansReading extends MutableMapOfIntsToBooleansBenchm
     readFromArray[mutable.Map[Int, Boolean]](jsonBytes)
   }
 
-  @Benchmark
   def playJson(): mutable.Map[Int, Boolean] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
     import play.api.libs.json.Json
@@ -78,7 +69,6 @@ class MutableMapOfIntsToBooleansReading extends MutableMapOfIntsToBooleansBenchm
     Json.parse(jsonBytes).as[mutable.Map[Int, Boolean]]
   }
 
-  @Benchmark
   def playJsonJsoniter(): mutable.Map[Int, Boolean] = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
@@ -87,7 +77,6 @@ class MutableMapOfIntsToBooleansReading extends MutableMapOfIntsToBooleansBenchm
     readFromArray(jsonBytes).as[mutable.Map[Int, Boolean]]
   }
 
-  @Benchmark
   def weePickle(): mutable.Map[Int, Boolean] = {
     import com.rallyhealth.weejson.v1.jackson.FromJson
     import com.rallyhealth.weepickle.v1.WeePickle.ToScala

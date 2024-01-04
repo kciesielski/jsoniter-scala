@@ -3,7 +3,6 @@ package com.github.plokhotnyuk.jsoniter_scala.benchmark
 import org.openjdk.jmh.annotations.Benchmark
 
 class MissingRequiredFieldsReading extends MissingRequiredFieldsBenchmark {
-  @Benchmark
   def borer(): String = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.BorerJsonEncodersDecoders._
     import io.bullet.borer.Borer.Error
@@ -16,7 +15,6 @@ class MissingRequiredFieldsReading extends MissingRequiredFieldsBenchmark {
     }
   }
 
-  @Benchmark
   def circe(): String = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceEncodersDecoders._
     import io.circe.jawn._
@@ -24,7 +22,6 @@ class MissingRequiredFieldsReading extends MissingRequiredFieldsBenchmark {
     decodeByteArray[MissingRequiredFields](jsonBytes).fold(_.getMessage, _.toString) // toString shouldn't be called
   }
 
-  @Benchmark
   def circeJsoniter(): String = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceEncodersDecoders._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
@@ -34,7 +31,6 @@ class MissingRequiredFieldsReading extends MissingRequiredFieldsBenchmark {
     Decoder[MissingRequiredFields].decodeJson(readFromArray(jsonBytes)).fold(_.getMessage, _.toString) // toString shouldn't be called
   }
 
-  @Benchmark
   def jacksonScala(): String = {
     import com.fasterxml.jackson.databind.exc.MismatchedInputException
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
@@ -46,7 +42,6 @@ class MissingRequiredFieldsReading extends MissingRequiredFieldsBenchmark {
     }
   }
 
-  @Benchmark
   @annotation.nowarn
   def json4sJackson(): String = {
     import org.json4s._
@@ -61,7 +56,6 @@ class MissingRequiredFieldsReading extends MissingRequiredFieldsBenchmark {
     }
   }
 
-  @Benchmark
   @annotation.nowarn
   def json4sNative(): String = {
     import org.json4s._
@@ -76,7 +70,6 @@ class MissingRequiredFieldsReading extends MissingRequiredFieldsBenchmark {
     }
   }
 
-  @Benchmark
   def jsoniterScala(): String = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -88,7 +81,6 @@ class MissingRequiredFieldsReading extends MissingRequiredFieldsBenchmark {
     }
   }
 
-  @Benchmark
   def jsoniterScalaWithoutDump(): String = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -100,7 +92,6 @@ class MissingRequiredFieldsReading extends MissingRequiredFieldsBenchmark {
     }
   }
 
-  @Benchmark
   def jsoniterScalaWithStacktrace(): String = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -112,7 +103,6 @@ class MissingRequiredFieldsReading extends MissingRequiredFieldsBenchmark {
     }
   }
 
-  @Benchmark
   def playJson(): String = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
     import play.api.libs.json._
@@ -124,7 +114,6 @@ class MissingRequiredFieldsReading extends MissingRequiredFieldsBenchmark {
     }
   }
 
-  @Benchmark
   def playJsonJsoniter(): String = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
@@ -138,7 +127,6 @@ class MissingRequiredFieldsReading extends MissingRequiredFieldsBenchmark {
     }
   }
 
-  @Benchmark
   def smithy4sJson(): String = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.Smithy4sJCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -151,7 +139,6 @@ class MissingRequiredFieldsReading extends MissingRequiredFieldsBenchmark {
     }
   }
 
-  @Benchmark
   def sprayJson(): String = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.SprayFormats._
     import spray.json._
@@ -163,7 +150,6 @@ class MissingRequiredFieldsReading extends MissingRequiredFieldsBenchmark {
     }
   }
 
-  @Benchmark
   def uPickle(): String = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.UPickleReaderWriters._
     import upickle.core.AbortException
@@ -175,7 +161,6 @@ class MissingRequiredFieldsReading extends MissingRequiredFieldsBenchmark {
     }
   }
 
-  @Benchmark
   def weePickle(): String = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.WeePickleFromTos._
     import com.rallyhealth.weejson.v1.jackson.FromJson
@@ -189,7 +174,6 @@ class MissingRequiredFieldsReading extends MissingRequiredFieldsBenchmark {
     }
   }
 
-  @Benchmark
   def zioJson(): String = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.ZioJSONEncoderDecoders._
     import zio.json._

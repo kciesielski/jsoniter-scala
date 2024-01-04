@@ -3,21 +3,18 @@ package com.github.plokhotnyuk.jsoniter_scala.benchmark
 import org.openjdk.jmh.annotations.Benchmark
 
 class IntReading extends IntBenchmark {
-  @Benchmark
   def borer(): Int = {
     import io.bullet.borer.Json
 
     Json.decode(jsonBytes).to[Int].value
   }
 
-  @Benchmark
   def circe(): Int = {
     import io.circe.jawn._
 
     decodeByteArray[Int](jsonBytes).fold(throw _, identity)
   }
 
-  @Benchmark
   def circeJsoniter(): Int = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -26,14 +23,12 @@ class IntReading extends IntBenchmark {
     Decoder[Int].decodeJson(readFromArray(jsonBytes)).fold(throw _, identity)
   }
 
-  @Benchmark
   def jacksonScala(): Int = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
 
     jacksonMapper.readValue[Int](jsonBytes)
   }
 
-  @Benchmark
   @annotation.nowarn
   def json4sJackson(): Int = {
     import org.json4s._
@@ -43,7 +38,6 @@ class IntReading extends IntBenchmark {
     mapper.readValue[JValue](jsonBytes, jValueType).extract[Int]
   }
 /* FIXME: json4s.native throws org.json4s.ParserUtil$ParseException: expected field or array
-  @Benchmark
   @annotation.nowarn
   def json4sNative(): Int = {
     import org.json4s._
@@ -54,7 +48,6 @@ class IntReading extends IntBenchmark {
     parse(new String(jsonBytes, UTF_8)).extract[Int]
   }
 */
-  @Benchmark
   def jsoniterScala(): Int = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -62,14 +55,12 @@ class IntReading extends IntBenchmark {
     readFromArray[Int](jsonBytes)(intCodec)
   }
 
-  @Benchmark
   def playJson(): Int = {
     import play.api.libs.json.Json
 
     Json.parse(jsonBytes).as[Int]
   }
 
-  @Benchmark
   def playJsonJsoniter(): Int = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -77,7 +68,6 @@ class IntReading extends IntBenchmark {
     readFromArray(jsonBytes).as[Int]
   }
 
-  @Benchmark
   def smithy4sJson(): Int = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.Smithy4sJCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -85,7 +75,6 @@ class IntReading extends IntBenchmark {
     readFromArray[Int](jsonBytes)(intJCodec)
   }
 
-  @Benchmark
   def sprayJson(): Int = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.SprayFormats._
     import spray.json._
@@ -93,14 +82,12 @@ class IntReading extends IntBenchmark {
     JsonParser(jsonBytes).convertTo[Int]
   }
 
-  @Benchmark
   def uPickle(): Int = {
     import upickle.default._
 
     read[Int](jsonBytes)
   }
 
-  @Benchmark
   def weePickle(): Int = {
     import com.rallyhealth.weejson.v1.jackson.FromJson
     import com.rallyhealth.weepickle.v1.WeePickle.ToScala
@@ -108,7 +95,6 @@ class IntReading extends IntBenchmark {
     FromJson(jsonBytes).transform(ToScala[Int])
   }
 
-  @Benchmark
   def zioJson(): Int = {
     import java.nio.charset.StandardCharsets.UTF_8
     import zio.json.DecoderOps

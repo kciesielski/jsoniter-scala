@@ -4,7 +4,6 @@ import org.openjdk.jmh.annotations.Benchmark
 import scala.collection.immutable.BitSet
 
 class BitSetReading extends BitSetBenchmark {
-  @Benchmark
   def avSystemGenCodec(): BitSet = {
     import com.avsystem.commons.serialization.json._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.AVSystemCodecs._
@@ -13,7 +12,6 @@ class BitSetReading extends BitSetBenchmark {
     JsonStringInput.read[BitSet](new String(jsonBytes, UTF_8))
   }
 
-  @Benchmark
   def circe(): BitSet = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceEncodersDecoders._
     import io.circe.jawn._
@@ -21,7 +19,6 @@ class BitSetReading extends BitSetBenchmark {
     decodeByteArray[BitSet](jsonBytes).fold(throw _, identity)
   }
 
-  @Benchmark
   def circeJsoniter(): BitSet = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceEncodersDecoders._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
@@ -31,21 +28,18 @@ class BitSetReading extends BitSetBenchmark {
     Decoder[BitSet].decodeJson(readFromArray(jsonBytes)).fold(throw _, identity)
   }
 /* FIXME: DSL-JSON throws scala.collection.immutable.HashSet$HashTrieSet cannot be cast to scala.collection.immutable.BitSet
-  @Benchmark
   def dslJsonScala(): BitSet = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.DslPlatformJson._
 
     dslJsonDecode[BitSet](jsonBytes)
   }
 */
-  @Benchmark
   def jacksonScala(): BitSet = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
 
     jacksonMapper.readValue[BitSet](jsonBytes)
   }
 
-  @Benchmark
   def json4sJackson(): Set[Int] = {
     import org.json4s._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.Json4sJacksonMappers._
@@ -54,7 +48,6 @@ class BitSetReading extends BitSetBenchmark {
     mapper.readValue[JValue](jsonBytes, jValueType).extract[Set[Int]]
   }
 
-  @Benchmark
   def json4sNative(): Set[Int] = {
     import org.json4s._
     import org.json4s.native.JsonMethods._
@@ -64,7 +57,6 @@ class BitSetReading extends BitSetBenchmark {
     parse(new String(jsonBytes, UTF_8)).extract[Set[Int]]
   }
 
-  @Benchmark
   def jsoniterScala(): BitSet = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -72,7 +64,6 @@ class BitSetReading extends BitSetBenchmark {
     readFromArray[BitSet](jsonBytes)
   }
 
-  @Benchmark
   def playJson(): BitSet = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
     import play.api.libs.json.Json
@@ -80,7 +71,6 @@ class BitSetReading extends BitSetBenchmark {
     Json.parse(jsonBytes).as[BitSet](bitSetFormat)
   }
 
-  @Benchmark
   def playJsonJsoniter(): BitSet = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._

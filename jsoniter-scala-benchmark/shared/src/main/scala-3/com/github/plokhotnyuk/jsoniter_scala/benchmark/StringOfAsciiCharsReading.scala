@@ -3,21 +3,18 @@ package com.github.plokhotnyuk.jsoniter_scala.benchmark
 import org.openjdk.jmh.annotations.Benchmark
 
 class StringOfAsciiCharsReading extends StringOfAsciiCharsBenchmark {
-  @Benchmark
   def borer(): String = {
     import io.bullet.borer.Json
 
     Json.decode(jsonBytes).to[String].value
   }
 
-  @Benchmark
   def circe(): String = {
     import io.circe.jawn._
 
     decodeByteArray[String](jsonBytes).fold(throw _, identity)
   }
 
-  @Benchmark
   def circeJsoniter(): String = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -26,14 +23,12 @@ class StringOfAsciiCharsReading extends StringOfAsciiCharsBenchmark {
     Decoder[String].decodeJson(readFromArray(jsonBytes, tooLongStringConfig)).fold(throw _, identity)
   }
 
-  @Benchmark
   def jacksonScala(): String = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
 
     jacksonMapper.readValue[String](jsonBytes)
   }
 
-  @Benchmark
   @annotation.nowarn
   def json4sJackson(): String = {
     import org.json4s._
@@ -43,7 +38,6 @@ class StringOfAsciiCharsReading extends StringOfAsciiCharsBenchmark {
     mapper.readValue[JValue](jsonBytes, jValueType).extract[String]
   }
 /* FIXME: json4s.native throws org.json4s.ParserUtil$ParseException: expected field or array
-  @Benchmark
   @annotation.nowarn
   def json4sNative(): String = {
     import org.json4s._
@@ -54,7 +48,6 @@ class StringOfAsciiCharsReading extends StringOfAsciiCharsBenchmark {
     parse(new String(jsonBytes, UTF_8)).extract[String]
   }
 */
-  @Benchmark
   def jsoniterScala(): String = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -62,14 +55,12 @@ class StringOfAsciiCharsReading extends StringOfAsciiCharsBenchmark {
     readFromArray[String](jsonBytes, tooLongStringConfig)(stringCodec)
   }
 
-  @Benchmark
   def playJson(): String = {
     import play.api.libs.json.Json
 
     Json.parse(jsonBytes).as[String]
   }
 
-  @Benchmark
   def playJsonJsoniter(): String = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
@@ -78,7 +69,6 @@ class StringOfAsciiCharsReading extends StringOfAsciiCharsBenchmark {
     readFromArray[play.api.libs.json.JsValue](jsonBytes, tooLongStringConfig).as[String]
   }
 
-  @Benchmark
   def smithy4sJson(): String = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.Smithy4sJCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -86,7 +76,6 @@ class StringOfAsciiCharsReading extends StringOfAsciiCharsBenchmark {
     readFromArray[String](jsonBytes, tooLongStringConfig)(stringJCodec)
   }
 
-  @Benchmark
   def sprayJson(): String = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.SprayFormats._
     import spray.json._
@@ -94,14 +83,12 @@ class StringOfAsciiCharsReading extends StringOfAsciiCharsBenchmark {
     JsonParser(jsonBytes).convertTo[String]
   }
 
-  @Benchmark
   def uPickle(): String = {
     import upickle.default._
 
     read[String](jsonBytes)
   }
 
-  @Benchmark
   def weePickle(): String = {
     import com.rallyhealth.weejson.v1.jackson.FromJson
     import com.rallyhealth.weepickle.v1.WeePickle.ToScala
@@ -109,7 +96,6 @@ class StringOfAsciiCharsReading extends StringOfAsciiCharsBenchmark {
     FromJson(jsonBytes).transform(ToScala[String])
   }
 
-  @Benchmark
   def zioJson(): String = {
     import zio.json.DecoderOps
     import java.nio.charset.StandardCharsets.UTF_8

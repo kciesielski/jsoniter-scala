@@ -3,7 +3,6 @@ package com.github.plokhotnyuk.jsoniter_scala.benchmark
 import org.openjdk.jmh.annotations.Benchmark
 
 class AnyValsWriting extends AnyValsBenchmark {
-  @Benchmark
   def borer(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.BorerJsonEncodersDecoders._
     import io.bullet.borer.Json
@@ -11,7 +10,6 @@ class AnyValsWriting extends AnyValsBenchmark {
     Json.encode(obj).toByteArray
   }
 
-  @Benchmark
   def circe(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceEncodersDecoders._
     import io.circe.syntax._
@@ -20,7 +18,6 @@ class AnyValsWriting extends AnyValsBenchmark {
     printer.print(obj.asJson).getBytes(UTF_8)
   }
 
-  @Benchmark
   def circeJsoniter(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceEncodersDecoders._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
@@ -30,14 +27,12 @@ class AnyValsWriting extends AnyValsBenchmark {
     writeToArray(obj.asJson)
   }
 
-  @Benchmark
   def jacksonScala(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
 
     jacksonMapper.writeValueAsBytes(obj)
   }
 
-  @Benchmark
   def json4sJackson(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.AnyValsJson4sFormats._
     import org.json4s._
@@ -46,7 +41,6 @@ class AnyValsWriting extends AnyValsBenchmark {
     mapper.writeValueAsBytes(Extraction.decompose(obj))
   }
 
-  @Benchmark
   def json4sNative(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.AnyValsJson4sFormats._
     import org.json4s.native.Serialization._
@@ -55,7 +49,6 @@ class AnyValsWriting extends AnyValsBenchmark {
     write(obj).getBytes(UTF_8)
   }
 
-  @Benchmark
   def jsoniterScala(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -63,7 +56,6 @@ class AnyValsWriting extends AnyValsBenchmark {
     writeToArray(obj)
   }
 
-  @Benchmark
   def jsoniterScalaPrealloc(): Int = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -71,7 +63,6 @@ class AnyValsWriting extends AnyValsBenchmark {
     writeToSubArray(obj, preallocatedBuf, 64, preallocatedBuf.length)
   }
 
-  @Benchmark
   def playJson(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
     import play.api.libs.json.Json
@@ -79,7 +70,6 @@ class AnyValsWriting extends AnyValsBenchmark {
     Json.toBytes(Json.toJson(obj))
   }
 
-  @Benchmark
   def playJsonJsoniter(): Array[Byte] = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
@@ -89,7 +79,6 @@ class AnyValsWriting extends AnyValsBenchmark {
     writeToArray(Json.toJson(obj))
   }
 
-  @Benchmark
   def smithy4sJson(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.Smithy4sJCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -97,7 +86,6 @@ class AnyValsWriting extends AnyValsBenchmark {
     writeToArray(obj)
   }
 
-  @Benchmark
   def sprayJson(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.SprayFormats._
     import spray.json._
@@ -106,14 +94,12 @@ class AnyValsWriting extends AnyValsBenchmark {
     obj.toJson.compactPrint.getBytes(UTF_8)
   }
 
-  @Benchmark
   def uPickle(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.UPickleReaderWriters._
 
     writeToByteArray(obj)
   }
 
-  @Benchmark
   def weePickle(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.WeePickleFromTos._
     import com.rallyhealth.weepickle.v1.WeePickle.FromScala
@@ -121,7 +107,6 @@ class AnyValsWriting extends AnyValsBenchmark {
     FromScala(obj).transform(ToJson.bytes)
   }
 
-  @Benchmark
   def zioJson(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.ZioJSONEncoderDecoders._
     import zio.json._

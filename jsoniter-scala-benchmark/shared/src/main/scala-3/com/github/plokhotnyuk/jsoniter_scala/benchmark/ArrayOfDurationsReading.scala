@@ -4,7 +4,6 @@ import org.openjdk.jmh.annotations.Benchmark
 import java.time.Duration
 
 class ArrayOfDurationsReading extends ArrayOfDurationsBenchmark {
-  @Benchmark
   def borer(): Array[Duration] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.BorerJsonEncodersDecoders._
     import io.bullet.borer.Json
@@ -12,14 +11,12 @@ class ArrayOfDurationsReading extends ArrayOfDurationsBenchmark {
     Json.decode(jsonBytes).to[Array[Duration]].value
   }
 
-  @Benchmark
   def circe(): Array[Duration] = {
     import io.circe.jawn._
 
     decodeByteArray[Array[Duration]](jsonBytes).fold(throw _, identity)
   }
 
-  @Benchmark
   def circeJsoniter(): Array[Duration] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.circe.CirceCodecs._
@@ -29,14 +26,12 @@ class ArrayOfDurationsReading extends ArrayOfDurationsBenchmark {
     Decoder[Array[Duration]].decodeJson(readFromArray(jsonBytes)).fold(throw _, identity)
   }
 
-  @Benchmark
   def jacksonScala(): Array[Duration] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
 
     jacksonMapper.readValue[Array[Duration]](jsonBytes)
   }
 
-  @Benchmark
   @annotation.nowarn
   def json4sJackson(): Array[Duration] = {
     import org.json4s._
@@ -46,7 +41,6 @@ class ArrayOfDurationsReading extends ArrayOfDurationsBenchmark {
     mapper.readValue[JValue](jsonBytes, jValueType).extract[Array[Duration]]
   }
 
-  @Benchmark
   @annotation.nowarn
   def json4sNative(): Array[Duration] = {
     import org.json4s._
@@ -57,7 +51,6 @@ class ArrayOfDurationsReading extends ArrayOfDurationsBenchmark {
     parse(new String(jsonBytes, UTF_8)).extract[Array[Duration]]
   }
 
-  @Benchmark
   def jsoniterScala(): Array[Duration] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -65,7 +58,6 @@ class ArrayOfDurationsReading extends ArrayOfDurationsBenchmark {
     readFromArray[Array[Duration]](jsonBytes)
   }
 
-  @Benchmark
   def playJson(): Array[Duration] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
     import play.api.libs.json.Json
@@ -73,7 +65,6 @@ class ArrayOfDurationsReading extends ArrayOfDurationsBenchmark {
     Json.parse(jsonBytes).as[Array[Duration]]
   }
 
-  @Benchmark
   def playJsonJsoniter(): Array[Duration] = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -81,7 +72,6 @@ class ArrayOfDurationsReading extends ArrayOfDurationsBenchmark {
     readFromArray(jsonBytes).as[Array[Duration]]
   }
 
-  @Benchmark
   def sprayJson(): Array[Duration] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.SprayFormats._
     import spray.json._
@@ -89,14 +79,12 @@ class ArrayOfDurationsReading extends ArrayOfDurationsBenchmark {
     JsonParser(jsonBytes).convertTo[Array[Duration]]
   }
 
-  @Benchmark
   def uPickle(): Array[Duration] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.UPickleReaderWriters._
 
     read[Array[Duration]](jsonBytes)
   }
 
-  @Benchmark
   def weePickle(): Array[Duration] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.WeePickleFromTos._
     import com.rallyhealth.weejson.v1.jackson.FromJson
@@ -105,7 +93,6 @@ class ArrayOfDurationsReading extends ArrayOfDurationsBenchmark {
     FromJson(jsonBytes).transform(ToScala[Array[Duration]])
   }
 
-  @Benchmark
   def zioJson(): Array[Duration] = {
     import zio.json.DecoderOps
     import java.nio.charset.StandardCharsets.UTF_8

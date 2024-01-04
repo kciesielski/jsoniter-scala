@@ -4,7 +4,6 @@ import org.openjdk.jmh.annotations.Benchmark
 import java.time.ZoneId
 
 class ArrayOfZoneIdsReading extends ArrayOfZoneIdsBenchmark {
-  @Benchmark
   def avSystemGenCodec(): Array[ZoneId] = {
     import com.avsystem.commons.serialization.json._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.AVSystemCodecs._
@@ -13,7 +12,6 @@ class ArrayOfZoneIdsReading extends ArrayOfZoneIdsBenchmark {
     JsonStringInput.read[Array[ZoneId]](new String(jsonBytes, UTF_8))
   }
 
-  @Benchmark
   def borer(): Array[ZoneId] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.BorerJsonEncodersDecoders._
     import io.bullet.borer.Json
@@ -21,14 +19,12 @@ class ArrayOfZoneIdsReading extends ArrayOfZoneIdsBenchmark {
     Json.decode(jsonBytes).to[Array[ZoneId]].value
   }
 
-  @Benchmark
   def circe(): Array[ZoneId] = {
     import io.circe.jawn._
 
     decodeByteArray[Array[ZoneId]](jsonBytes).fold(throw _, identity)
   }
 
-  @Benchmark
   def circeJsoniter(): Array[ZoneId] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -37,14 +33,12 @@ class ArrayOfZoneIdsReading extends ArrayOfZoneIdsBenchmark {
     Decoder[Array[ZoneId]].decodeJson(readFromArray(jsonBytes)).fold(throw _, identity)
   }
 
-  @Benchmark
   def jacksonScala(): Array[ZoneId] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
 
     jacksonMapper.readValue[Array[ZoneId]](jsonBytes)
   }
 
-  @Benchmark
   def json4sJackson(): Array[ZoneId] = {
     import org.json4s._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.Json4sJacksonMappers._
@@ -53,7 +47,6 @@ class ArrayOfZoneIdsReading extends ArrayOfZoneIdsBenchmark {
     mapper.readValue[JValue](jsonBytes, jValueType).extract[Array[ZoneId]]
   }
 
-  @Benchmark
   def json4sNative(): Array[ZoneId] = {
     import org.json4s._
     import org.json4s.native.JsonMethods._
@@ -63,7 +56,6 @@ class ArrayOfZoneIdsReading extends ArrayOfZoneIdsBenchmark {
     parse(new String(jsonBytes, UTF_8)).extract[Array[ZoneId]]
   }
 
-  @Benchmark
   def jsoniterScala(): Array[ZoneId] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -71,7 +63,6 @@ class ArrayOfZoneIdsReading extends ArrayOfZoneIdsBenchmark {
     readFromArray[Array[ZoneId]](jsonBytes)
   }
 
-  @Benchmark
   def playJson(): Array[ZoneId] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
     import play.api.libs.json.Json
@@ -79,7 +70,6 @@ class ArrayOfZoneIdsReading extends ArrayOfZoneIdsBenchmark {
     Json.parse(jsonBytes).as[Array[ZoneId]]
   }
 
-  @Benchmark
   def playJsonJsoniter(): Array[ZoneId] = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
@@ -88,7 +78,6 @@ class ArrayOfZoneIdsReading extends ArrayOfZoneIdsBenchmark {
     readFromArray(jsonBytes).as[Array[ZoneId]]
   }
 
-  @Benchmark
   def sprayJson(): Array[ZoneId] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.SprayFormats._
     import spray.json._
@@ -96,14 +85,12 @@ class ArrayOfZoneIdsReading extends ArrayOfZoneIdsBenchmark {
     JsonParser(jsonBytes).convertTo[Array[ZoneId]]
   }
 
-  @Benchmark
   def uPickle(): Array[ZoneId] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.UPickleReaderWriters._
 
     read[Array[ZoneId]](jsonBytes)
   }
 
-  @Benchmark
   def weePickle(): Array[ZoneId] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.WeePickleFromTos._
     import com.rallyhealth.weejson.v1.jackson.FromJson
@@ -112,7 +99,6 @@ class ArrayOfZoneIdsReading extends ArrayOfZoneIdsBenchmark {
     FromJson(jsonBytes).transform(ToScala[Array[ZoneId]])
   }
 
-  @Benchmark
   def zioJson(): Array[ZoneId] = {
     import zio.json.DecoderOps
     import java.nio.charset.StandardCharsets.UTF_8

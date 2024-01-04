@@ -3,7 +3,6 @@ package com.github.plokhotnyuk.jsoniter_scala.benchmark
 import org.openjdk.jmh.annotations.Benchmark
 
 class StringOfEscapedCharsWriting extends StringOfEscapedCharsBenchmark {
-  @Benchmark
   def avSystemGenCodec(): Array[Byte] = {
     import com.avsystem.commons.serialization.json._
     import java.nio.charset.StandardCharsets.UTF_8
@@ -11,7 +10,6 @@ class StringOfEscapedCharsWriting extends StringOfEscapedCharsBenchmark {
     JsonStringOutput.write(obj, JsonOptions(asciiOutput = true)).getBytes(UTF_8)
   }
 
-  @Benchmark
   def circe(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceEncodersDecoders._
     import io.circe.syntax._
@@ -19,7 +17,6 @@ class StringOfEscapedCharsWriting extends StringOfEscapedCharsBenchmark {
     escapingPrinter.print(obj.asJson).getBytes
   }
 
-  @Benchmark
   def circeJsoniter(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -28,14 +25,12 @@ class StringOfEscapedCharsWriting extends StringOfEscapedCharsBenchmark {
     writeToArray(obj.asJson, escapingConfig)
   }
 
-  @Benchmark
   def jacksonScala(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
 
     jacksonEscapeNonAsciiMapper.writeValueAsBytes(obj)
   }
 
-  @Benchmark
   def json4sJackson(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.EscapeUnicodeJson4sFormats._
     import org.json4s._
@@ -44,7 +39,6 @@ class StringOfEscapedCharsWriting extends StringOfEscapedCharsBenchmark {
     escapeNonAsciiMapper.writeValueAsBytes(Extraction.decompose(obj))
   }
 
-  @Benchmark
   def json4sNative(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.EscapeUnicodeJson4sFormats._
     import org.json4s.native.Serialization._
@@ -53,7 +47,6 @@ class StringOfEscapedCharsWriting extends StringOfEscapedCharsBenchmark {
     write(obj).getBytes(UTF_8)
   }
 
-  @Benchmark
   def jsoniterScala(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -61,7 +54,6 @@ class StringOfEscapedCharsWriting extends StringOfEscapedCharsBenchmark {
     writeToArray(obj, escapingConfig)(stringCodec)
   }
 
-  @Benchmark
   def jsoniterScalaPrealloc(): Int = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -69,14 +61,12 @@ class StringOfEscapedCharsWriting extends StringOfEscapedCharsBenchmark {
     writeToSubArray(obj, preallocatedBuf, 64, preallocatedBuf.length, escapingConfig)(stringCodec)
   }
 
-  @Benchmark
   def playJson(): Array[Byte] = {
     import play.api.libs.json.Json
 
     Json.asciiStringify(Json.toJson(obj)).getBytes
   }
 
-  @Benchmark
   def playJsonJsoniter(): Array[Byte] = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonJsoniterFormats._
@@ -86,7 +76,6 @@ class StringOfEscapedCharsWriting extends StringOfEscapedCharsBenchmark {
     writeToArray(Json.toJson(obj), escapingConfig)
   }
 
-  @Benchmark
   def smithy4sJson(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.Smithy4sJCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -94,14 +83,12 @@ class StringOfEscapedCharsWriting extends StringOfEscapedCharsBenchmark {
     writeToArray(obj, escapingConfig)(stringJCodec)
   }
 
-  @Benchmark
   def uPickle(): Array[Byte] = {
     import upickle.default._
 
     writeToByteArray(obj, escapeUnicode = true)
   }
 
-  @Benchmark
   def weePickle(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.WeePickleFromTos._
     import com.rallyhealth.weepickle.v1.WeePickle.FromScala

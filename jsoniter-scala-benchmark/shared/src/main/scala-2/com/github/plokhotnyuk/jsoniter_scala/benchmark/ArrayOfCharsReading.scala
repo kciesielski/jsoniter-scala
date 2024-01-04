@@ -3,7 +3,6 @@ package com.github.plokhotnyuk.jsoniter_scala.benchmark
 import org.openjdk.jmh.annotations.Benchmark
 
 class ArrayOfCharsReading extends ArrayOfCharsBenchmark {
-  @Benchmark
   def avSystemGenCodec(): Array[Char] = {
     import com.avsystem.commons.serialization.json._
     import java.nio.charset.StandardCharsets.UTF_8
@@ -11,7 +10,6 @@ class ArrayOfCharsReading extends ArrayOfCharsBenchmark {
     JsonStringInput.read[Array[Char]](new String(jsonBytes, UTF_8))
   }
 
-  @Benchmark
   def borer(): Array[Char] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.BorerJsonEncodersDecoders._
     import io.bullet.borer.Json
@@ -19,14 +17,12 @@ class ArrayOfCharsReading extends ArrayOfCharsBenchmark {
     Json.decode(jsonBytes).to[Array[Char]].value
   }
 
-  @Benchmark
   def circe(): Array[Char] = {
     import io.circe.jawn._
 
     decodeByteArray[Array[Char]](jsonBytes).fold(throw _, identity)
   }
 
-  @Benchmark
   def circeJsoniter(): Array[Char] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -35,14 +31,12 @@ class ArrayOfCharsReading extends ArrayOfCharsBenchmark {
     Decoder[Array[Char]].decodeJson(readFromArray(jsonBytes)).fold(throw _, identity)
   }
 
-  @Benchmark
   def jacksonScala(): Array[Char] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
 
     jacksonMapper.readValue[Array[Char]](jsonBytes)
   }
 
-  @Benchmark
   def json4sJackson(): Array[Char] = {
     import org.json4s._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.Json4sJacksonMappers._
@@ -51,7 +45,6 @@ class ArrayOfCharsReading extends ArrayOfCharsBenchmark {
     mapper.readValue[JValue](jsonBytes, jValueType).extract[Array[Char]]
   }
 
-  @Benchmark
   def json4sNative(): Array[Char] = {
     import org.json4s._
     import org.json4s.native.JsonMethods._
@@ -61,7 +54,6 @@ class ArrayOfCharsReading extends ArrayOfCharsBenchmark {
     parse(new String(jsonBytes, UTF_8)).extract[Array[Char]]
   }
 
-  @Benchmark
   def jsoniterScala(): Array[Char] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -69,7 +61,6 @@ class ArrayOfCharsReading extends ArrayOfCharsBenchmark {
     readFromArray[Array[Char]](jsonBytes)
   }
 
-  @Benchmark
   def playJson(): Array[Char] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
     import play.api.libs.json.Json
@@ -77,7 +68,6 @@ class ArrayOfCharsReading extends ArrayOfCharsBenchmark {
     Json.parse(jsonBytes).as[Array[Char]]
   }
 
-  @Benchmark
   def playJsonJsoniter(): Array[Char] = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
@@ -86,7 +76,6 @@ class ArrayOfCharsReading extends ArrayOfCharsBenchmark {
     readFromArray(jsonBytes).as[Array[Char]]
   }
 
-  @Benchmark
   def sprayJson(): Array[Char] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.SprayFormats._
     import spray.json._
@@ -94,14 +83,12 @@ class ArrayOfCharsReading extends ArrayOfCharsBenchmark {
     JsonParser(jsonBytes).convertTo[Array[Char]]
   }
 
-  @Benchmark
   def uPickle(): Array[Char] = {
     import upickle.default._
 
     read[Array[Char]](jsonBytes)
   }
 
-  @Benchmark
   def weePickle(): Array[Char] = {
     import com.rallyhealth.weejson.v1.jackson.FromJson
     import com.rallyhealth.weepickle.v1.WeePickle.ToScala
@@ -109,7 +96,6 @@ class ArrayOfCharsReading extends ArrayOfCharsBenchmark {
     FromJson(jsonBytes).transform(ToScala[Array[Char]])
   }
 
-  @Benchmark
   def zioJson(): Array[Char] = {
     import zio.json.DecoderOps
     import java.nio.charset.StandardCharsets.UTF_8

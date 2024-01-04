@@ -28,6 +28,5 @@ import org.openjdk.jmh.annotations._
   "-XX:-UseAdaptiveNUMAChunkSizing",
   "-XX:+PerfDisableSharedMem" // See https://github.com/Simonis/mmap-pause#readme
 ))
-@BenchmarkMode(Array(Mode.Throughput))
 @OutputTimeUnit(TimeUnit.SECONDS)
 abstract class CommonParams

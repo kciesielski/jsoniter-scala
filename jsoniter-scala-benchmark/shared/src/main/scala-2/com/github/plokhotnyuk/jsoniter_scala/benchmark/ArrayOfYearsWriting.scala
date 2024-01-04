@@ -3,7 +3,6 @@ package com.github.plokhotnyuk.jsoniter_scala.benchmark
 import org.openjdk.jmh.annotations.Benchmark
 
 class ArrayOfYearsWriting extends ArrayOfYearsBenchmark {
-  @Benchmark
   def avSystemGenCodec(): Array[Byte] = {
     import java.nio.charset.StandardCharsets.UTF_8
     import com.avsystem.commons.serialization.json._
@@ -12,7 +11,6 @@ class ArrayOfYearsWriting extends ArrayOfYearsBenchmark {
     JsonStringOutput.write(obj).getBytes(UTF_8)
   }
 
-  @Benchmark
   def borer(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.BorerJsonEncodersDecoders._
     import io.bullet.borer.Json
@@ -20,7 +18,6 @@ class ArrayOfYearsWriting extends ArrayOfYearsBenchmark {
     Json.encode(obj).toByteArray
   }
 
-  @Benchmark
   def circe(): Array[Byte] = {
     import java.nio.charset.StandardCharsets.UTF_8
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceEncodersDecoders._
@@ -29,7 +26,6 @@ class ArrayOfYearsWriting extends ArrayOfYearsBenchmark {
     printer.print(obj.asJson).getBytes(UTF_8)
   }
 
-  @Benchmark
   def circeJsoniter(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.circe.CirceCodecs._
@@ -39,14 +35,12 @@ class ArrayOfYearsWriting extends ArrayOfYearsBenchmark {
     writeToArray(obj.asJson)
   }
 
-  @Benchmark
   def jacksonScala(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
 
     jacksonMapper.writeValueAsBytes(obj)
   }
 
-  @Benchmark
   def json4sJackson(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JavaTimeJson4sFormats._
     import org.json4s._
@@ -55,7 +49,6 @@ class ArrayOfYearsWriting extends ArrayOfYearsBenchmark {
     mapper.writeValueAsBytes(Extraction.decompose(obj))
   }
 
-  @Benchmark
   def json4sNative(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JavaTimeJson4sFormats._
     import org.json4s.native.Serialization._
@@ -64,7 +57,6 @@ class ArrayOfYearsWriting extends ArrayOfYearsBenchmark {
     write(obj).getBytes(UTF_8)
   }
 
-  @Benchmark
   def jsoniterScala(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -72,7 +64,6 @@ class ArrayOfYearsWriting extends ArrayOfYearsBenchmark {
     writeToArray(obj)
   }
 
-  @Benchmark
   def jsoniterScalaPrealloc(): Int = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -80,7 +71,6 @@ class ArrayOfYearsWriting extends ArrayOfYearsBenchmark {
     writeToSubArray(obj, preallocatedBuf, 64, preallocatedBuf.length)
   }
 
-  @Benchmark
   def playJson(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
     import play.api.libs.json.Json
@@ -88,7 +78,6 @@ class ArrayOfYearsWriting extends ArrayOfYearsBenchmark {
     Json.toBytes(Json.toJson(obj))
   }
 
-  @Benchmark
   def playJsonJsoniter(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
     import play.api.libs.json.Json
@@ -97,7 +86,6 @@ class ArrayOfYearsWriting extends ArrayOfYearsBenchmark {
     writeToArray(Json.toJson(obj))(com.evolutiongaming.jsonitertool.PlayJsonJsoniter.jsValueCodec)
   }
 
-  @Benchmark
   def sprayJson(): Array[Byte] = {
     import spray.json._
     import java.nio.charset.StandardCharsets.UTF_8
@@ -106,14 +94,12 @@ class ArrayOfYearsWriting extends ArrayOfYearsBenchmark {
     obj.toJson.compactPrint.getBytes(UTF_8)
   }
 
-  @Benchmark
   def uPickle(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.UPickleReaderWriters._
 
     writeToByteArray(obj)
   }
 
-  @Benchmark
   def weePickle(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.WeePickleFromTos._
     import com.rallyhealth.weepickle.v1.WeePickle.FromScala
@@ -121,7 +107,6 @@ class ArrayOfYearsWriting extends ArrayOfYearsBenchmark {
     FromScala(obj).transform(ToJson.bytes)
   }
 
-  @Benchmark
   def zioJson(): Array[Byte] = {
     import zio.json._
     import java.nio.charset.StandardCharsets.UTF_8

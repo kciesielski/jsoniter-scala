@@ -3,7 +3,6 @@ package com.github.plokhotnyuk.jsoniter_scala.benchmark
 import org.openjdk.jmh.annotations.Benchmark
 
 class MutableBitSetWriting extends MutableBitSetBenchmark {
-  @Benchmark
   def circe(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceEncodersDecoders._
     import io.circe.syntax._
@@ -12,7 +11,6 @@ class MutableBitSetWriting extends MutableBitSetBenchmark {
     printer.print(obj.asJson).getBytes(UTF_8)
   }
 
-  @Benchmark
   def circeJsoniter(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceEncodersDecoders._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
@@ -22,7 +20,6 @@ class MutableBitSetWriting extends MutableBitSetBenchmark {
     writeToArray(obj.asJson)
   }
 
-  @Benchmark
   def json4sJackson(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CommonJson4sFormats._
     import org.json4s._
@@ -31,7 +28,6 @@ class MutableBitSetWriting extends MutableBitSetBenchmark {
     mapper.writeValueAsBytes(Extraction.decompose(obj))
   }
 
-  @Benchmark
   def json4sNative(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CommonJson4sFormats._
     import org.json4s.native.Serialization._
@@ -40,14 +36,12 @@ class MutableBitSetWriting extends MutableBitSetBenchmark {
     write(obj).getBytes(UTF_8)
   }
 
-  @Benchmark
   def jacksonScala(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
 
     jacksonMapper.writeValueAsBytes(obj)
   }
 
-  @Benchmark
   def jsoniterScala(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -55,7 +49,6 @@ class MutableBitSetWriting extends MutableBitSetBenchmark {
     writeToArray(obj)
   }
 
-  @Benchmark
   def jsoniterScalaPrealloc(): Int = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -63,14 +56,12 @@ class MutableBitSetWriting extends MutableBitSetBenchmark {
     writeToSubArray(obj, preallocatedBuf, 64, preallocatedBuf.length)
   }
 
-  @Benchmark
   def playJson(): Array[Byte] = {
     import play.api.libs.json.Json
 
     Json.toBytes(Json.toJson(obj))
   }
 
-  @Benchmark
   def playJsonJsoniter(): Array[Byte] = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.core._

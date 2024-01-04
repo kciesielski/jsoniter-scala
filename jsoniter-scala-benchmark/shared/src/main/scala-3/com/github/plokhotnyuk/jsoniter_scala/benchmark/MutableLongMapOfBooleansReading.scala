@@ -4,7 +4,6 @@ import org.openjdk.jmh.annotations.Benchmark
 import scala.collection.mutable
 
 class MutableLongMapOfBooleansReading extends MutableLongMapOfBooleansBenchmark {
-  @Benchmark
   def circe(): mutable.LongMap[Boolean] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceEncodersDecoders._
     import io.circe.jawn._
@@ -12,7 +11,6 @@ class MutableLongMapOfBooleansReading extends MutableLongMapOfBooleansBenchmark 
     decodeByteArray[mutable.LongMap[Boolean]](jsonBytes).fold(throw _, identity)
   }
 
-  @Benchmark
   def circeJsoniter(): mutable.LongMap[Boolean] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceEncodersDecoders._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
@@ -22,14 +20,12 @@ class MutableLongMapOfBooleansReading extends MutableLongMapOfBooleansBenchmark 
     Decoder[mutable.LongMap[Boolean]].decodeJson(readFromArray(jsonBytes)).fold(throw _, identity)
   }
 
-  @Benchmark
   def jacksonScala(): mutable.LongMap[Boolean] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
 
     jacksonMapper.readValue[mutable.LongMap[Boolean]](jsonBytes)
   }
 /* FIXME: json4s.jackson throws org.json4s.MappingException: unknown error
-  @Benchmark
   @annotation.nowarn
   def json4sJackson(): mutable.LongMap[Boolean] = {
     import org.json4s._
@@ -40,7 +36,6 @@ class MutableLongMapOfBooleansReading extends MutableLongMapOfBooleansBenchmark 
   }
 */
 /* FIXME: json4s.native throws org.json4s.MappingException: unknown error
-  @Benchmark
   @annotation.nowarn
   def json4sNative(): mutable.LongMap[Boolean] = {
     import org.json4s._
@@ -51,7 +46,6 @@ class MutableLongMapOfBooleansReading extends MutableLongMapOfBooleansBenchmark 
     parse(new String(jsonBytes, UTF_8)).extract[mutable.LongMap[Boolean]]
   }
 */
-  @Benchmark
   def jsoniterScala(): mutable.LongMap[Boolean] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -59,7 +53,6 @@ class MutableLongMapOfBooleansReading extends MutableLongMapOfBooleansBenchmark 
     readFromArray[mutable.LongMap[Boolean]](jsonBytes)
   }
 
-  @Benchmark
   def playJson(): mutable.LongMap[Boolean] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
     import play.api.libs.json.Json
@@ -67,7 +60,6 @@ class MutableLongMapOfBooleansReading extends MutableLongMapOfBooleansBenchmark 
     Json.parse(jsonBytes).as[mutable.LongMap[Boolean]]
   }
 
-  @Benchmark
   def playJsonJsoniter(): mutable.LongMap[Boolean] = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._

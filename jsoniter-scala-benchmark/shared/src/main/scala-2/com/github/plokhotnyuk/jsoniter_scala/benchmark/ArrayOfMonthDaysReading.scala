@@ -4,7 +4,6 @@ import org.openjdk.jmh.annotations.Benchmark
 import java.time.MonthDay
 
 class ArrayOfMonthDaysReading extends ArrayOfMonthDaysBenchmark {
-  @Benchmark
   def avSystemGenCodec(): Array[MonthDay] = {
     import com.avsystem.commons.serialization.json._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.AVSystemCodecs._
@@ -13,7 +12,6 @@ class ArrayOfMonthDaysReading extends ArrayOfMonthDaysBenchmark {
     JsonStringInput.read[Array[MonthDay]](new String(jsonBytes, UTF_8))
   }
 
-  @Benchmark
   def borer(): Array[MonthDay] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.BorerJsonEncodersDecoders._
     import io.bullet.borer.Json
@@ -21,14 +19,12 @@ class ArrayOfMonthDaysReading extends ArrayOfMonthDaysBenchmark {
     Json.decode(jsonBytes).to[Array[MonthDay]].value
   }
 
-  @Benchmark
   def circe(): Array[MonthDay] = {
     import io.circe.jawn._
 
     decodeByteArray[Array[MonthDay]](jsonBytes).fold(throw _, identity)
   }
 
-  @Benchmark
   def circeJsoniter(): Array[MonthDay] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.circe.CirceCodecs._
@@ -38,14 +34,12 @@ class ArrayOfMonthDaysReading extends ArrayOfMonthDaysBenchmark {
     Decoder[Array[MonthDay]].decodeJson(readFromArray(jsonBytes)).fold(throw _, identity)
   }
 
-  @Benchmark
   def jacksonScala(): Array[MonthDay] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
 
     jacksonMapper.readValue[Array[MonthDay]](jsonBytes)
   }
 
-  @Benchmark
   def json4sJackson(): Array[MonthDay] = {
     import org.json4s._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.Json4sJacksonMappers._
@@ -54,7 +48,6 @@ class ArrayOfMonthDaysReading extends ArrayOfMonthDaysBenchmark {
     mapper.readValue[JValue](jsonBytes, jValueType).extract[Array[MonthDay]]
   }
 
-  @Benchmark
   def json4sNative(): Array[MonthDay] = {
     import org.json4s._
     import org.json4s.native.JsonMethods._
@@ -64,7 +57,6 @@ class ArrayOfMonthDaysReading extends ArrayOfMonthDaysBenchmark {
     parse(new String(jsonBytes, UTF_8)).extract[Array[MonthDay]]
   }
 
-  @Benchmark
   def jsoniterScala(): Array[MonthDay] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -72,7 +64,6 @@ class ArrayOfMonthDaysReading extends ArrayOfMonthDaysBenchmark {
     readFromArray[Array[MonthDay]](jsonBytes)
   }
 
-  @Benchmark
   def playJson(): Array[MonthDay] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
     import play.api.libs.json.Json
@@ -80,7 +71,6 @@ class ArrayOfMonthDaysReading extends ArrayOfMonthDaysBenchmark {
     Json.parse(jsonBytes).as[Array[MonthDay]]
   }
 
-  @Benchmark
   def playJsonJsoniter(): Array[MonthDay] = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -88,7 +78,6 @@ class ArrayOfMonthDaysReading extends ArrayOfMonthDaysBenchmark {
     readFromArray(jsonBytes).as[Array[MonthDay]]
   }
 
-  @Benchmark
   def sprayJson(): Array[MonthDay] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.SprayFormats._
     import spray.json._
@@ -96,14 +85,12 @@ class ArrayOfMonthDaysReading extends ArrayOfMonthDaysBenchmark {
     JsonParser(jsonBytes).convertTo[Array[MonthDay]]
   }
 
-  @Benchmark
   def uPickle(): Array[MonthDay] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.UPickleReaderWriters._
 
     read[Array[MonthDay]](jsonBytes)
   }
 
-  @Benchmark
   def weePickle(): Array[MonthDay] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.WeePickleFromTos._
     import com.rallyhealth.weejson.v1.jackson.FromJson
@@ -112,7 +99,6 @@ class ArrayOfMonthDaysReading extends ArrayOfMonthDaysBenchmark {
     FromJson(jsonBytes).transform(ToScala[Array[MonthDay]])
   }
 
-  @Benchmark
   def zioJson(): Array[MonthDay] = {
     import zio.json.DecoderOps
     import java.nio.charset.StandardCharsets.UTF_8

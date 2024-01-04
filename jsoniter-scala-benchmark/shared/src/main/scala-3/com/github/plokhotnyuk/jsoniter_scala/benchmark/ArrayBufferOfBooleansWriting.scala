@@ -3,14 +3,12 @@ package com.github.plokhotnyuk.jsoniter_scala.benchmark
 import org.openjdk.jmh.annotations.Benchmark
 
 class ArrayBufferOfBooleansWriting extends ArrayBufferOfBooleansBenchmark {
-  @Benchmark
   def borer(): Array[Byte] = {
     import io.bullet.borer.Json
 
     Json.encode(obj).toByteArray
   }
 
-  @Benchmark
   def circe(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceEncodersDecoders._
     import io.circe.syntax._
@@ -19,7 +17,6 @@ class ArrayBufferOfBooleansWriting extends ArrayBufferOfBooleansBenchmark {
     printer.print(obj.asJson).getBytes(UTF_8)
   }
 
-  @Benchmark
   def circeJsoniter(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -28,14 +25,12 @@ class ArrayBufferOfBooleansWriting extends ArrayBufferOfBooleansBenchmark {
     writeToArray(obj.asJson)
   }
 
-  @Benchmark
   def jacksonScala(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
 
     jacksonMapper.writeValueAsBytes(obj)
   }
 
-  @Benchmark
   def json4sJackson(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CommonJson4sFormats._
     import org.json4s._
@@ -44,7 +39,6 @@ class ArrayBufferOfBooleansWriting extends ArrayBufferOfBooleansBenchmark {
     mapper.writeValueAsBytes(Extraction.decompose(obj))
   }
 
-  @Benchmark
   def json4sNative(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CommonJson4sFormats._
     import org.json4s.native.Serialization._
@@ -53,7 +47,6 @@ class ArrayBufferOfBooleansWriting extends ArrayBufferOfBooleansBenchmark {
     write(obj).getBytes(UTF_8)
   }
 
-  @Benchmark
   def jsoniterScala(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -61,7 +54,6 @@ class ArrayBufferOfBooleansWriting extends ArrayBufferOfBooleansBenchmark {
     writeToArray(obj)
   }
 
-  @Benchmark
   def jsoniterScalaPrealloc(): Int = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -69,14 +61,12 @@ class ArrayBufferOfBooleansWriting extends ArrayBufferOfBooleansBenchmark {
     writeToSubArray(obj, preallocatedBuf, 64, preallocatedBuf.length)
   }
 
-  @Benchmark
   def playJson(): Array[Byte] = {
     import play.api.libs.json.Json
 
     Json.toBytes(Json.toJson(obj))
   }
 
-  @Benchmark
   def playJsonJsoniter(): Array[Byte] = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -85,7 +75,6 @@ class ArrayBufferOfBooleansWriting extends ArrayBufferOfBooleansBenchmark {
     writeToArray(Json.toJson(obj))
   }
 
-  @Benchmark
   def sprayJson(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.SprayFormats._
     import spray.json._
@@ -94,14 +83,12 @@ class ArrayBufferOfBooleansWriting extends ArrayBufferOfBooleansBenchmark {
     obj.toJson.compactPrint.getBytes(UTF_8)
   }
 
-  @Benchmark
   def uPickle(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.UPickleReaderWriters._
 
     writeToByteArray(obj)
   }
 
-  @Benchmark
   def weePickle(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.WeePickleFromTos._
     import com.rallyhealth.weepickle.v1.WeePickle.FromScala
@@ -109,7 +96,6 @@ class ArrayBufferOfBooleansWriting extends ArrayBufferOfBooleansBenchmark {
     FromScala(obj).transform(ToJson.bytes)
   }
 
-  @Benchmark
   def zioJson(): Array[Byte] = {
     import zio.json._
     import java.nio.charset.StandardCharsets.UTF_8

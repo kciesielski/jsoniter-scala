@@ -3,21 +3,18 @@ package com.github.plokhotnyuk.jsoniter_scala.benchmark
 import org.openjdk.jmh.annotations.Benchmark
 
 class ArrayOfBooleansReading extends ArrayOfBooleansBenchmark {
-  @Benchmark
   def borer(): Array[Boolean] = {
     import io.bullet.borer.Json
 
     Json.decode(jsonBytes).to[Array[Boolean]].value
   }
 
-  @Benchmark
   def circe(): Array[Boolean] = {
     import io.circe.jawn._
 
     decodeByteArray[Array[Boolean]](jsonBytes).fold(throw _, identity)
   }
 
-  @Benchmark
   def circeJsoniter(): Array[Boolean] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -26,14 +23,12 @@ class ArrayOfBooleansReading extends ArrayOfBooleansBenchmark {
     Decoder[Array[Boolean]].decodeJson(readFromArray(jsonBytes)).fold(throw _, identity)
   }
 
-  @Benchmark
   def jacksonScala(): Array[Boolean] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
 
     jacksonMapper.readValue[Array[Boolean]](jsonBytes)
   }
 
-  @Benchmark
   @annotation.nowarn
   def json4sJackson(): Array[Boolean] = {
     import org.json4s._
@@ -43,7 +38,6 @@ class ArrayOfBooleansReading extends ArrayOfBooleansBenchmark {
     mapper.readValue[JValue](jsonBytes, jValueType).extract[Array[Boolean]]
   }
 
-  @Benchmark
   @annotation.nowarn
   def json4sNative(): Array[Boolean] = {
     import org.json4s._
@@ -54,7 +48,6 @@ class ArrayOfBooleansReading extends ArrayOfBooleansBenchmark {
     parse(new String(jsonBytes, UTF_8)).extract[Array[Boolean]]
   }
 
-  @Benchmark
   def jsoniterScala(): Array[Boolean] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -62,14 +55,12 @@ class ArrayOfBooleansReading extends ArrayOfBooleansBenchmark {
     readFromArray[Array[Boolean]](jsonBytes)
   }
 
-  @Benchmark
   def playJson(): Array[Boolean] = {
     import play.api.libs.json.Json
 
     Json.parse(jsonBytes).as[Array[Boolean]]
   }
 
-  @Benchmark
   def playJsonJsoniter(): Array[Boolean] = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -77,7 +68,6 @@ class ArrayOfBooleansReading extends ArrayOfBooleansBenchmark {
     readFromArray(jsonBytes).as[Array[Boolean]]
   }
 
-  @Benchmark
   def smithy4sJson(): Array[Boolean] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.Smithy4sJCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -85,7 +75,6 @@ class ArrayOfBooleansReading extends ArrayOfBooleansBenchmark {
     readFromArray[Array[Boolean]](jsonBytes)
   }
 
-  @Benchmark
   def sprayJson(): Array[Boolean] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.SprayFormats._
     import spray.json._
@@ -93,14 +82,12 @@ class ArrayOfBooleansReading extends ArrayOfBooleansBenchmark {
     JsonParser(jsonBytes).convertTo[Array[Boolean]]
   }
 
-  @Benchmark
   def uPickle(): Array[Boolean] = {
     import upickle.default._
 
     read[Array[Boolean]](jsonBytes)
   }
 
-  @Benchmark
   def weePickle(): Array[Boolean] = {
     import com.rallyhealth.weejson.v1.jackson.FromJson
     import com.rallyhealth.weepickle.v1.WeePickle.ToScala
@@ -108,7 +95,6 @@ class ArrayOfBooleansReading extends ArrayOfBooleansBenchmark {
     FromJson(jsonBytes).transform(ToScala[Array[Boolean]])
   }
 
-  @Benchmark
   def zioJson(): Array[Boolean] = {
     import zio.json.DecoderOps
     import java.nio.charset.StandardCharsets.UTF_8

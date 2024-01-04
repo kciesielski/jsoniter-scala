@@ -3,7 +3,6 @@ package com.github.plokhotnyuk.jsoniter_scala.benchmark
 import org.openjdk.jmh.annotations.Benchmark
 
 class OpenRTBWriting extends OpenRTBBenchmark {
-  @Benchmark
   def avSystemGenCodec(): Array[Byte] = {
     import com.avsystem.commons.serialization.json.JsonStringOutput
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.AVSystemCodecs._
@@ -12,7 +11,6 @@ class OpenRTBWriting extends OpenRTBBenchmark {
     JsonStringOutput.write(obj).getBytes(UTF_8)
   }
 
-  @Benchmark
   def borer(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.BorerJsonEncodersDecoders._
     import io.bullet.borer.Json
@@ -20,7 +18,6 @@ class OpenRTBWriting extends OpenRTBBenchmark {
     Json.encode(obj).toByteArray
   }
 
-  @Benchmark
   def circe(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceEncodersDecoders._
     import io.circe.syntax._
@@ -29,7 +26,6 @@ class OpenRTBWriting extends OpenRTBBenchmark {
     printer.print(obj.asJson).getBytes(UTF_8)
   }
 
-  @Benchmark
   def circeJsoniter(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceEncodersDecoders._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
@@ -39,7 +35,6 @@ class OpenRTBWriting extends OpenRTBBenchmark {
     writeToArray(obj.asJson)
   }
 /* FIXME: Jackson serializes fields with default values
-  @Benchmark
   def jacksonScala(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
 
@@ -47,7 +42,6 @@ class OpenRTBWriting extends OpenRTBBenchmark {
   }
 */
 /* FIXME: json4s.jackson serializes fields with default values
-  @Benchmark
   def json4sJackson(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CommonJson4sFormats._
     import org.json4s._
@@ -57,7 +51,6 @@ class OpenRTBWriting extends OpenRTBBenchmark {
   }
 */
 /* FIXME: json4s.native serializes fields with default values
-  @Benchmark
   def json4sNative(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CommonJson4sFormats._
     import org.json4s.native.Serialization._
@@ -66,7 +59,6 @@ class OpenRTBWriting extends OpenRTBBenchmark {
     write(obj).getBytes(UTF_8)
   }
 */
-  @Benchmark
   def jsoniterScala(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -74,7 +66,6 @@ class OpenRTBWriting extends OpenRTBBenchmark {
     writeToArray(obj)
   }
 
-  @Benchmark
   def jsoniterScalaPrealloc(): Int = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -82,7 +73,6 @@ class OpenRTBWriting extends OpenRTBBenchmark {
     writeToSubArray(obj, preallocatedBuf, 64, preallocatedBuf.length)
   }
 
-  @Benchmark
   def playJson(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
     import play.api.libs.json.Json
@@ -90,7 +80,6 @@ class OpenRTBWriting extends OpenRTBBenchmark {
     Json.toBytes(Json.toJson(obj))
   }
 
-  @Benchmark
   def playJsonJsoniter(): Array[Byte] = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
@@ -100,7 +89,6 @@ class OpenRTBWriting extends OpenRTBBenchmark {
     writeToArray(Json.toJson(obj))
   }
 
-  @Benchmark
   def smithy4sJson(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.Smithy4sJCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -108,7 +96,6 @@ class OpenRTBWriting extends OpenRTBBenchmark {
     writeToArray(obj)
   }
 
-  @Benchmark
   def sprayJson(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.SprayFormats._
     import spray.json._
@@ -117,14 +104,12 @@ class OpenRTBWriting extends OpenRTBBenchmark {
     obj.toJson.compactPrint.getBytes(UTF_8)
   }
 
-  @Benchmark
   def uPickle(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.UPickleReaderWriters._
 
     writeToByteArray(obj)
   }
 
-  @Benchmark
   def weePickle(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.WeePickleFromTos._
     import com.rallyhealth.weepickle.v1.WeePickle.FromScala
@@ -132,7 +117,6 @@ class OpenRTBWriting extends OpenRTBBenchmark {
     FromScala(obj).transform(ToJson.bytes)
   }
 /* FIXME: Zio-JSON serializes empty collections
-  @Benchmark
   def zioJson(): Array[Byte] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.ZioJSONEncoderDecoders._
     import zio.json._

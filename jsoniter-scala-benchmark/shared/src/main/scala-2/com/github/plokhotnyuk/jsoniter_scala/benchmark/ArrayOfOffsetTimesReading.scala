@@ -4,7 +4,6 @@ import org.openjdk.jmh.annotations.Benchmark
 import java.time.OffsetTime
 
 class ArrayOfOffsetTimesReading extends ArrayOfOffsetTimesBenchmark {
-  @Benchmark
   def avSystemGenCodec(): Array[OffsetTime] = {
     import com.avsystem.commons.serialization.json._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.AVSystemCodecs._
@@ -13,7 +12,6 @@ class ArrayOfOffsetTimesReading extends ArrayOfOffsetTimesBenchmark {
     JsonStringInput.read[Array[OffsetTime]](new String(jsonBytes, UTF_8))
   }
 
-  @Benchmark
   def borer(): Array[OffsetTime] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.BorerJsonEncodersDecoders._
     import io.bullet.borer.Json
@@ -21,14 +19,12 @@ class ArrayOfOffsetTimesReading extends ArrayOfOffsetTimesBenchmark {
     Json.decode(jsonBytes).to[Array[OffsetTime]].value
   }
 
-  @Benchmark
   def circe(): Array[OffsetTime] = {
     import io.circe.jawn._
 
     decodeByteArray[Array[OffsetTime]](jsonBytes).fold(throw _, identity)
   }
 
-  @Benchmark
   def circeJsoniter(): Array[OffsetTime] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.circe.CirceCodecs._
@@ -38,21 +34,18 @@ class ArrayOfOffsetTimesReading extends ArrayOfOffsetTimesBenchmark {
     Decoder[Array[OffsetTime]].decodeJson(readFromArray(jsonBytes)).fold(throw _, identity)
   }
 
-  @Benchmark
   def dslJsonScala(): Array[OffsetTime] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.DslPlatformJson._
 
     dslJsonDecode[Array[OffsetTime]](jsonBytes)
   }
 
-  @Benchmark
   def jacksonScala(): Array[OffsetTime] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
 
     jacksonMapper.readValue[Array[OffsetTime]](jsonBytes)
   }
 
-  @Benchmark
   def json4sJackson(): Array[OffsetTime] = {
     import org.json4s._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.Json4sJacksonMappers._
@@ -61,7 +54,6 @@ class ArrayOfOffsetTimesReading extends ArrayOfOffsetTimesBenchmark {
     mapper.readValue[JValue](jsonBytes, jValueType).extract[Array[OffsetTime]]
   }
 
-  @Benchmark
   def json4sNative(): Array[OffsetTime] = {
     import org.json4s._
     import org.json4s.native.JsonMethods._
@@ -71,7 +63,6 @@ class ArrayOfOffsetTimesReading extends ArrayOfOffsetTimesBenchmark {
     parse(new String(jsonBytes, UTF_8)).extract[Array[OffsetTime]]
   }
 
-  @Benchmark
   def jsoniterScala(): Array[OffsetTime] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -79,7 +70,6 @@ class ArrayOfOffsetTimesReading extends ArrayOfOffsetTimesBenchmark {
     readFromArray[Array[OffsetTime]](jsonBytes)
   }
 
-  @Benchmark
   def playJson(): Array[OffsetTime] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
     import play.api.libs.json.Json
@@ -87,7 +77,6 @@ class ArrayOfOffsetTimesReading extends ArrayOfOffsetTimesBenchmark {
     Json.parse(jsonBytes).as[Array[OffsetTime]]
   }
 
-  @Benchmark
   def playJsonJsoniter(): Array[OffsetTime] = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -95,7 +84,6 @@ class ArrayOfOffsetTimesReading extends ArrayOfOffsetTimesBenchmark {
     readFromArray(jsonBytes).as[Array[OffsetTime]]
   }
 
-  @Benchmark
   def sprayJson(): Array[OffsetTime] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.SprayFormats._
     import spray.json._
@@ -103,14 +91,12 @@ class ArrayOfOffsetTimesReading extends ArrayOfOffsetTimesBenchmark {
     JsonParser(jsonBytes).convertTo[Array[OffsetTime]]
   }
 
-  @Benchmark
   def uPickle(): Array[OffsetTime] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.UPickleReaderWriters._
 
     read[Array[OffsetTime]](jsonBytes)
   }
 
-  @Benchmark
   def weePickle(): Array[OffsetTime] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.WeePickleFromTos._
     import com.rallyhealth.weejson.v1.jackson.FromJson
@@ -119,7 +105,6 @@ class ArrayOfOffsetTimesReading extends ArrayOfOffsetTimesBenchmark {
     FromJson(jsonBytes).transform(ToScala[Array[OffsetTime]])
   }
 
-  @Benchmark
   def zioJson(): Array[OffsetTime] = {
     import zio.json.DecoderOps
     import java.nio.charset.StandardCharsets.UTF_8

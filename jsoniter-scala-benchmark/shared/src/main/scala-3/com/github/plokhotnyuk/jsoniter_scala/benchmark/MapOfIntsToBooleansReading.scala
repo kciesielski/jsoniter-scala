@@ -3,14 +3,12 @@ package com.github.plokhotnyuk.jsoniter_scala.benchmark
 import org.openjdk.jmh.annotations.Benchmark
 
 class MapOfIntsToBooleansReading extends MapOfIntsToBooleansBenchmark {
-  @Benchmark
   def circe(): Map[Int, Boolean] = {
     import io.circe.jawn._
 
     decodeByteArray[Map[Int, Boolean]](jsonBytes).fold(throw _, identity)
   }
 
-  @Benchmark
   def circeJsoniter(): Map[Int, Boolean] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -19,14 +17,12 @@ class MapOfIntsToBooleansReading extends MapOfIntsToBooleansBenchmark {
     Decoder[Map[Int, Boolean]].decodeJson(readFromArray(jsonBytes)).fold(throw _, identity)
   }
 
-  @Benchmark
   def jacksonScala(): Map[Int, Boolean] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
 
     jacksonMapper.readValue[Map[Int, Boolean]](jsonBytes)
   }
 
-  @Benchmark
   @annotation.nowarn
   def json4sJackson(): Map[Int, Boolean] = {
     import org.json4s._
@@ -36,7 +32,6 @@ class MapOfIntsToBooleansReading extends MapOfIntsToBooleansBenchmark {
     mapper.readValue[JValue](jsonBytes, jValueType).extract[Map[Int, Boolean]]
   }
 
-  @Benchmark
   @annotation.nowarn
   def json4sNative(): Map[Int, Boolean] = {
     import org.json4s._
@@ -47,7 +42,6 @@ class MapOfIntsToBooleansReading extends MapOfIntsToBooleansBenchmark {
     parse(new String(jsonBytes, UTF_8)).extract[Map[Int, Boolean]]
   }
 
-  @Benchmark
   def jsoniterScala(): Map[Int, Boolean] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -55,14 +49,12 @@ class MapOfIntsToBooleansReading extends MapOfIntsToBooleansBenchmark {
     readFromArray[Map[Int, Boolean]](jsonBytes)
   }
 
-  @Benchmark
   def playJson(): Map[Int, Boolean] = {
     import play.api.libs.json.Json
 
     Json.parse(jsonBytes).as[Map[Int, Boolean]]
   }
 
-  @Benchmark
   def playJsonJsoniter(): Map[Int, Boolean] = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -70,7 +62,6 @@ class MapOfIntsToBooleansReading extends MapOfIntsToBooleansBenchmark {
     readFromArray[play.api.libs.json.JsValue](jsonBytes).as[Map[Int, Boolean]]
   }
 
-  @Benchmark
   def smithy4sJson(): Map[Int, Boolean] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.Smithy4sJCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -78,7 +69,6 @@ class MapOfIntsToBooleansReading extends MapOfIntsToBooleansBenchmark {
     readFromArray[Map[Int, Boolean]](jsonBytes)
   }
 /* FIXME: Spray-JSON throws spray.json.DeserializationException: Expected Int as JsNumber, but got "-1"
-  @Benchmark
   def sprayJson(): Map[Int, Boolean] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.SprayFormats._
     import spray.json._
@@ -87,14 +77,12 @@ class MapOfIntsToBooleansReading extends MapOfIntsToBooleansBenchmark {
   }
 */
 /* FIXME: uPickle parses maps from JSON arrays only
-  @Benchmark
   def uPickle(): Map[Int, Boolean] = {
     import upickle.default._
 
     read[Map[Int, Boolean]](jsonBytes)
   }
 */
-  @Benchmark
   def weePickle(): Map[Int, Boolean] = {
     import com.rallyhealth.weejson.v1.jackson.FromJson
     import com.rallyhealth.weepickle.v1.WeePickle.ToScala
@@ -102,7 +90,6 @@ class MapOfIntsToBooleansReading extends MapOfIntsToBooleansBenchmark {
     FromJson(jsonBytes).transform(ToScala[Map[Int, Boolean]])
   }
 
-  @Benchmark
   def zioJson(): Map[Int, Boolean] = {
     import zio.json._
     import java.nio.charset.StandardCharsets.UTF_8

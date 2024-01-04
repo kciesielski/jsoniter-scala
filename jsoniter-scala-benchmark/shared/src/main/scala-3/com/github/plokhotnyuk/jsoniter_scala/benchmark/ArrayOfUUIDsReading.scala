@@ -4,7 +4,6 @@ import org.openjdk.jmh.annotations.Benchmark
 import java.util.UUID
 
 class ArrayOfUUIDsReading extends ArrayOfUUIDsBenchmark {
-  @Benchmark
   def borer(): Array[UUID] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.BorerJsonEncodersDecoders._
     import io.bullet.borer.Json
@@ -12,14 +11,12 @@ class ArrayOfUUIDsReading extends ArrayOfUUIDsBenchmark {
     Json.decode(jsonBytes).to[Array[UUID]].value
   }
 
-  @Benchmark
   def circe(): Array[UUID] = {
     import io.circe.jawn._
 
     decodeByteArray[Array[UUID]](jsonBytes).fold(throw _, identity)
   }
 
-  @Benchmark
   def circeJsoniter(): Array[UUID] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -28,14 +25,12 @@ class ArrayOfUUIDsReading extends ArrayOfUUIDsBenchmark {
     Decoder[Array[UUID]].decodeJson(readFromArray(jsonBytes)).fold(throw _, identity)
   }
 
-  @Benchmark
   def jacksonScala(): Array[UUID] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
 
     jacksonMapper.readValue[Array[UUID]](jsonBytes)
   }
 
-  @Benchmark
   @annotation.nowarn
   def json4sJackson(): Array[UUID] = {
     import org.json4s._
@@ -45,7 +40,6 @@ class ArrayOfUUIDsReading extends ArrayOfUUIDsBenchmark {
     mapper.readValue[JValue](jsonBytes, jValueType).extract[Array[UUID]]
   }
 
-  @Benchmark
   @annotation.nowarn
   def json4sNative(): Array[UUID] = {
     import org.json4s._
@@ -56,7 +50,6 @@ class ArrayOfUUIDsReading extends ArrayOfUUIDsBenchmark {
     parse(new String(jsonBytes, UTF_8)).extract[Array[UUID]]
   }
 
-  @Benchmark
   def jsoniterScala(): Array[UUID] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -64,14 +57,12 @@ class ArrayOfUUIDsReading extends ArrayOfUUIDsBenchmark {
     readFromArray[Array[UUID]](jsonBytes)
   }
 
-  @Benchmark
   def playJson(): Array[UUID] = {
     import play.api.libs.json.Json
 
     Json.parse(jsonBytes).as[Array[UUID]]
   }
 
-  @Benchmark
   def playJsonJsoniter(): Array[UUID] = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -79,7 +70,6 @@ class ArrayOfUUIDsReading extends ArrayOfUUIDsBenchmark {
     readFromArray(jsonBytes).as[Array[UUID]]
   }
 
-  @Benchmark
   def smithy4sJson(): Array[UUID] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.Smithy4sJCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -87,7 +77,6 @@ class ArrayOfUUIDsReading extends ArrayOfUUIDsBenchmark {
     readFromArray[Array[UUID]](jsonBytes)
   }
 
-  @Benchmark
   def sprayJson(): Array[UUID] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.SprayFormats._
     import spray.json._
@@ -95,14 +84,12 @@ class ArrayOfUUIDsReading extends ArrayOfUUIDsBenchmark {
     JsonParser(jsonBytes).convertTo[Array[UUID]]
   }
 
-  @Benchmark
   def uPickle(): Array[UUID] = {
     import upickle.default._
 
     read[Array[UUID]](jsonBytes)
   }
 
-  @Benchmark
   def weePickle(): Array[UUID] = {
     import com.rallyhealth.weejson.v1.jackson.FromJson
     import com.rallyhealth.weepickle.v1.WeePickle.ToScala
@@ -110,7 +97,6 @@ class ArrayOfUUIDsReading extends ArrayOfUUIDsBenchmark {
     FromJson(jsonBytes).transform(ToScala[Array[UUID]])
   }
 
-  @Benchmark
   def zioJson(): Array[UUID] = {
     import zio.json.DecoderOps
     import java.nio.charset.StandardCharsets.UTF_8

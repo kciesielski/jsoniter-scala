@@ -4,7 +4,6 @@ import org.openjdk.jmh.annotations.Benchmark
 import java.time.Period
 
 class ArrayOfPeriodsReading extends ArrayOfPeriodsBenchmark {
-  @Benchmark
   def borer(): Array[Period] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.BorerJsonEncodersDecoders._
     import io.bullet.borer.Json
@@ -12,14 +11,12 @@ class ArrayOfPeriodsReading extends ArrayOfPeriodsBenchmark {
     Json.decode(jsonBytes).to[Array[Period]].value
   }
 
-  @Benchmark
   def circe(): Array[Period] = {
     import io.circe.jawn._
 
     decodeByteArray[Array[Period]](jsonBytes).fold(throw _, identity)
   }
 
-  @Benchmark
   def circeJsoniter(): Array[Period] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.circe.CirceCodecs._
@@ -29,14 +26,12 @@ class ArrayOfPeriodsReading extends ArrayOfPeriodsBenchmark {
     Decoder[Array[Period]].decodeJson(readFromArray(jsonBytes)).fold(throw _, identity)
   }
 
-  @Benchmark
   def jacksonScala(): Array[Period] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
 
     jacksonMapper.readValue[Array[Period]](jsonBytes)
   }
 
-  @Benchmark
   @annotation.nowarn
   def json4sJackson(): Array[Period] = {
     import org.json4s._
@@ -46,7 +41,6 @@ class ArrayOfPeriodsReading extends ArrayOfPeriodsBenchmark {
     mapper.readValue[JValue](jsonBytes, jValueType).extract[Array[Period]]
   }
 
-  @Benchmark
   @annotation.nowarn
   def json4sNative(): Array[Period] = {
     import org.json4s._
@@ -57,7 +51,6 @@ class ArrayOfPeriodsReading extends ArrayOfPeriodsBenchmark {
     parse(new String(jsonBytes, UTF_8)).extract[Array[Period]]
   }
 
-  @Benchmark
   def jsoniterScala(): Array[Period] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -65,7 +58,6 @@ class ArrayOfPeriodsReading extends ArrayOfPeriodsBenchmark {
     readFromArray[Array[Period]](jsonBytes)
   }
 
-  @Benchmark
   def playJson(): Array[Period] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
     import play.api.libs.json.Json
@@ -73,7 +65,6 @@ class ArrayOfPeriodsReading extends ArrayOfPeriodsBenchmark {
     Json.parse(jsonBytes).as[Array[Period]]
   }
 
-  @Benchmark
   def playJsonJsoniter(): Array[Period] = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -81,7 +72,6 @@ class ArrayOfPeriodsReading extends ArrayOfPeriodsBenchmark {
     readFromArray(jsonBytes).as[Array[Period]]
   }
 
-  @Benchmark
   def sprayJson(): Array[Period] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.SprayFormats._
     import spray.json._
@@ -89,14 +79,12 @@ class ArrayOfPeriodsReading extends ArrayOfPeriodsBenchmark {
     JsonParser(jsonBytes).convertTo[Array[Period]]
   }
 
-  @Benchmark
   def uPickle(): Array[Period] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.UPickleReaderWriters._
 
     read[Array[Period]](jsonBytes)
   }
 
-  @Benchmark
   def weePickle(): Array[Period] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.WeePickleFromTos._
     import com.rallyhealth.weejson.v1.jackson.FromJson
@@ -105,7 +93,6 @@ class ArrayOfPeriodsReading extends ArrayOfPeriodsBenchmark {
     FromJson(jsonBytes).transform(ToScala[Array[Period]])
   }
 
-  @Benchmark
   def zioJson(): Array[Period] = {
     import zio.json.DecoderOps
     import java.nio.charset.StandardCharsets.UTF_8

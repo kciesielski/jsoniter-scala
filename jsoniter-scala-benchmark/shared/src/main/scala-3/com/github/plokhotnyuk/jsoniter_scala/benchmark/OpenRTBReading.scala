@@ -4,7 +4,6 @@ import com.github.plokhotnyuk.jsoniter_scala.benchmark.OpenRTB.BidRequest
 import org.openjdk.jmh.annotations.Benchmark
 
 class OpenRTBReading extends OpenRTBBenchmark {
-  @Benchmark
   def borer(): BidRequest = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.BorerJsonEncodersDecoders._
     import io.bullet.borer.Json
@@ -12,7 +11,6 @@ class OpenRTBReading extends OpenRTBBenchmark {
     Json.decode(jsonBytes).to[BidRequest].value
   }
 
-  @Benchmark
   def circe(): BidRequest = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceEncodersDecoders._
     import io.circe.jawn._
@@ -20,7 +18,6 @@ class OpenRTBReading extends OpenRTBBenchmark {
     decodeByteArray[BidRequest](jsonBytes).fold(throw _, identity)
   }
 
-  @Benchmark
   def circeJsoniter(): BidRequest = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceEncodersDecoders._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
@@ -30,14 +27,12 @@ class OpenRTBReading extends OpenRTBBenchmark {
     Decoder[BidRequest].decodeJson(readFromArray(jsonBytes)).fold(throw _, identity)
   }
 
-  @Benchmark
   def jacksonScala(): BidRequest = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
 
     jacksonMapper.readValue[BidRequest](jsonBytes)
   }
 /* FIXME: json4s.jackson throws org.json4s.MappingException: Can't find ScalaSig for class com.github.plokhotnyuk.jsoniter_scala.benchmark.OpenRTB$BidRequest
-  @Benchmark
   @annotation.nowarn
   def json4sJackson(): BidRequest = {
     import org.json4s._
@@ -48,7 +43,6 @@ class OpenRTBReading extends OpenRTBBenchmark {
   }
 */
 /* FIXME: json4s.native throws org.json4s.MappingException: Can't find ScalaSig for class com.github.plokhotnyuk.jsoniter_scala.benchmark.OpenRTB$BidRequest
-  @Benchmark
   @annotation.nowarn
   def json4sNative(): BidRequest = {
     import org.json4s._
@@ -59,7 +53,6 @@ class OpenRTBReading extends OpenRTBBenchmark {
     parse(new String(jsonBytes, UTF_8)).extract[BidRequest]
   }
 */
-  @Benchmark
   def jsoniterScala(): BidRequest = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -67,7 +60,6 @@ class OpenRTBReading extends OpenRTBBenchmark {
     readFromArray[BidRequest](jsonBytes)
   }
 
-  @Benchmark
   def playJson(): BidRequest = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
     import play.api.libs.json.Json
@@ -75,7 +67,6 @@ class OpenRTBReading extends OpenRTBBenchmark {
     Json.parse(jsonBytes).as[BidRequest]
   }
 
-  @Benchmark
   def playJsonJsoniter(): BidRequest = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
@@ -84,7 +75,6 @@ class OpenRTBReading extends OpenRTBBenchmark {
     readFromArray(jsonBytes).as[BidRequest]
   }
 
-  @Benchmark
   def smithy4sJson(): BidRequest = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.Smithy4sJCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -92,7 +82,6 @@ class OpenRTBReading extends OpenRTBBenchmark {
     readFromArray[BidRequest](jsonBytes)
   }
 
-  @Benchmark
   def sprayJson(): BidRequest = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.SprayFormats._
     import spray.json.JsonParser
@@ -100,14 +89,12 @@ class OpenRTBReading extends OpenRTBBenchmark {
     JsonParser(jsonBytes).convertTo[BidRequest]
   }
 
-  @Benchmark
   def uPickle(): BidRequest = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.UPickleReaderWriters._
 
     read[BidRequest](jsonBytes)
   }
 
-  @Benchmark
   def weePickle(): BidRequest = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.WeePickleFromTos._
     import com.rallyhealth.weejson.v1.jackson.FromJson
@@ -116,7 +103,6 @@ class OpenRTBReading extends OpenRTBBenchmark {
     FromJson(jsonBytes).transform(ToScala[BidRequest])
   }
 
-  @Benchmark
   def zioJson(): BidRequest = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.ZioJSONEncoderDecoders._
     import zio.json._

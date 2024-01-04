@@ -4,7 +4,6 @@ import org.openjdk.jmh.annotations.Benchmark
 import scala.collection.immutable.IntMap
 
 class IntMapOfBooleansReading extends IntMapOfBooleansBenchmark {
-  @Benchmark
   def circe(): IntMap[Boolean] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceEncodersDecoders._
     import io.circe.jawn._
@@ -12,7 +11,6 @@ class IntMapOfBooleansReading extends IntMapOfBooleansBenchmark {
     decodeByteArray[IntMap[Boolean]](jsonBytes).fold(throw _, identity)
   }
 
-  @Benchmark
   def circeJsoniter(): IntMap[Boolean] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceEncodersDecoders._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
@@ -22,14 +20,12 @@ class IntMapOfBooleansReading extends IntMapOfBooleansBenchmark {
     Decoder[IntMap[Boolean]].decodeJson(readFromArray(jsonBytes)).fold(throw _, identity)
   }
 
-  @Benchmark
   def jacksonScala(): IntMap[Boolean] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
 
     jacksonMapper.readValue[IntMap[Boolean]](jsonBytes)
   }
 /* FIXME: json4s.jackson throws org.json4s.MappingException: unknown error
-  @Benchmark
   @annotation.nowarn
   def json4sJackson(): IntMap[Boolean] = {
     import org.json4s._
@@ -40,7 +36,6 @@ class IntMapOfBooleansReading extends IntMapOfBooleansBenchmark {
   }
 */
 /* FIXME: json4s.jackson throws org.json4s.MappingException: unknown error
-  @Benchmark
   @annotation.nowarn
   def json4sNative(): IntMap[Boolean] = {
     import org.json4s._
@@ -51,7 +46,6 @@ class IntMapOfBooleansReading extends IntMapOfBooleansBenchmark {
     parse(new String(jsonBytes, UTF_8)).extract[IntMap[Boolean]]
   }
 */
-  @Benchmark
   def jsoniterScala(): IntMap[Boolean] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -59,7 +53,6 @@ class IntMapOfBooleansReading extends IntMapOfBooleansBenchmark {
     readFromArray[IntMap[Boolean]](jsonBytes)
   }
 
-  @Benchmark
   def playJson(): IntMap[Boolean] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
     import play.api.libs.json.Json
@@ -67,7 +60,6 @@ class IntMapOfBooleansReading extends IntMapOfBooleansBenchmark {
     Json.parse(jsonBytes).as[IntMap[Boolean]]
   }
 
-  @Benchmark
   def playJsonJsoniter(): IntMap[Boolean] = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._

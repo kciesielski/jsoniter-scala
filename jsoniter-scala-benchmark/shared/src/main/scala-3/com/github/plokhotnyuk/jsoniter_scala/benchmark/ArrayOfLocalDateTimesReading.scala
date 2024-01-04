@@ -4,7 +4,6 @@ import org.openjdk.jmh.annotations.Benchmark
 import java.time.LocalDateTime
 
 class ArrayOfLocalDateTimesReading extends ArrayOfLocalDateTimesBenchmark {
-  @Benchmark
   def borer(): Array[LocalDateTime] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.BorerJsonEncodersDecoders._
     import io.bullet.borer.Json
@@ -12,14 +11,12 @@ class ArrayOfLocalDateTimesReading extends ArrayOfLocalDateTimesBenchmark {
     Json.decode(jsonBytes).to[Array[LocalDateTime]].value
   }
 
-  @Benchmark
   def circe(): Array[LocalDateTime] = {
     import io.circe.jawn._
 
     decodeByteArray[Array[LocalDateTime]](jsonBytes).fold(throw _, identity)
   }
 
-  @Benchmark
   def circeJsoniter(): Array[LocalDateTime] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.circe.CirceCodecs._
@@ -29,14 +26,12 @@ class ArrayOfLocalDateTimesReading extends ArrayOfLocalDateTimesBenchmark {
     Decoder[Array[LocalDateTime]].decodeJson(readFromArray(jsonBytes)).fold(throw _, identity)
   }
 
-  @Benchmark
   def jacksonScala(): Array[LocalDateTime] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
 
     jacksonMapper.readValue[Array[LocalDateTime]](jsonBytes)
   }
 
-  @Benchmark
   @annotation.nowarn
   def json4sJackson(): Array[LocalDateTime] = {
     import org.json4s._
@@ -46,7 +41,6 @@ class ArrayOfLocalDateTimesReading extends ArrayOfLocalDateTimesBenchmark {
     mapper.readValue[JValue](jsonBytes, jValueType).extract[Array[LocalDateTime]]
   }
 
-  @Benchmark
   @annotation.nowarn
   def json4sNative(): Array[LocalDateTime] = {
     import org.json4s._
@@ -57,7 +51,6 @@ class ArrayOfLocalDateTimesReading extends ArrayOfLocalDateTimesBenchmark {
     parse(new String(jsonBytes, UTF_8)).extract[Array[LocalDateTime]]
   }
 
-  @Benchmark
   def jsoniterScala(): Array[LocalDateTime] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -65,7 +58,6 @@ class ArrayOfLocalDateTimesReading extends ArrayOfLocalDateTimesBenchmark {
     readFromArray[Array[LocalDateTime]](jsonBytes)
   }
 
-  @Benchmark
   def playJson(): Array[LocalDateTime] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
     import play.api.libs.json.Json
@@ -73,7 +65,6 @@ class ArrayOfLocalDateTimesReading extends ArrayOfLocalDateTimesBenchmark {
     Json.parse(jsonBytes).as[Array[LocalDateTime]]
   }
 
-  @Benchmark
   def playJsonJsoniter(): Array[LocalDateTime] = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -81,7 +72,6 @@ class ArrayOfLocalDateTimesReading extends ArrayOfLocalDateTimesBenchmark {
     readFromArray(jsonBytes).as[Array[LocalDateTime]]
   }
 
-  @Benchmark
   def sprayJson(): Array[LocalDateTime] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.SprayFormats._
     import spray.json._
@@ -89,14 +79,12 @@ class ArrayOfLocalDateTimesReading extends ArrayOfLocalDateTimesBenchmark {
     JsonParser(jsonBytes).convertTo[Array[LocalDateTime]]
   }
 
-  @Benchmark
   def uPickle(): Array[LocalDateTime] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.UPickleReaderWriters._
 
     read[Array[LocalDateTime]](jsonBytes)
   }
 
-  @Benchmark
   def weePickle(): Array[LocalDateTime] = {
     import com.rallyhealth.weejson.v1.jackson.FromJson
     import com.rallyhealth.weepickle.v1.WeePickle.ToScala
@@ -104,7 +92,6 @@ class ArrayOfLocalDateTimesReading extends ArrayOfLocalDateTimesBenchmark {
     FromJson(jsonBytes).transform(ToScala[Array[LocalDateTime]])
   }
 
-  @Benchmark
   def zioJson(): Array[LocalDateTime] = {
     import zio.json.DecoderOps
     import java.nio.charset.StandardCharsets.UTF_8
