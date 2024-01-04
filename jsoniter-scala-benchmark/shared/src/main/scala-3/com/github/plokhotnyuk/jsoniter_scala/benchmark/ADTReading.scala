@@ -3,7 +3,6 @@ package com.github.plokhotnyuk.jsoniter_scala.benchmark
 import org.openjdk.jmh.annotations.Benchmark
 
 class ADTReading extends ADTBenchmark {
-  @Benchmark
   def borer(): ADTBase = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.BorerJsonEncodersDecoders._
     import io.bullet.borer.Json
@@ -19,7 +18,6 @@ class ADTReading extends ADTBenchmark {
     decodeByteArray[ADTBase](jsonBytes).fold(throw _, identity)
   }
 
-  @Benchmark
   def circeJsoniter(): ADTBase = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceEncodersDecoders._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
@@ -29,14 +27,12 @@ class ADTReading extends ADTBenchmark {
     Decoder[ADTBase].decodeJson(readFromArray(jsonBytes)).fold(throw _, identity)
   }
 
-  @Benchmark
   def jacksonScala(): ADTBase = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
 
     jacksonMapper.readValue[ADTBase](jsonBytes)
   }
 
-  @Benchmark
   @annotation.nowarn
   def json4sJackson(): ADTBase = {
     import org.json4s._
@@ -46,7 +42,6 @@ class ADTReading extends ADTBenchmark {
     mapper.readValue[JValue](jsonBytes, jValueType).extract[ADTBase]
   }
 
-  @Benchmark
   @annotation.nowarn
   def json4sNative(): ADTBase = {
     import org.json4s._
@@ -65,7 +60,6 @@ class ADTReading extends ADTBenchmark {
     readFromArray[ADTBase](jsonBytes)
   }
 
-  @Benchmark
   def playJson(): ADTBase = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
     import play.api.libs.json.Json
@@ -73,7 +67,6 @@ class ADTReading extends ADTBenchmark {
     Json.parse(jsonBytes).as[ADTBase]
   }
 
-  @Benchmark
   def playJsonJsoniter(): ADTBase = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
@@ -82,7 +75,6 @@ class ADTReading extends ADTBenchmark {
     readFromArray(jsonBytes).as[ADTBase]
   }
 
-  @Benchmark
   def smithy4sJson(): ADTBase = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.Smithy4sJCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -90,7 +82,6 @@ class ADTReading extends ADTBenchmark {
     readFromArray[ADTBase](jsonBytes)
   }
 
-  @Benchmark
   def sprayJson(): ADTBase = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.SprayFormats._
     import spray.json._
@@ -104,8 +95,13 @@ class ADTReading extends ADTBenchmark {
 
     read[ADTBase](jsonBytes)
   }
-
   @Benchmark
+  def uPickleAst(): ADTBase = {
+    import com.github.plokhotnyuk.jsoniter_scala.benchmark.UPickleReaderWriters._
+
+    readAst[ADTBase](jsonBytes)
+  }
+
   def weePickle(): ADTBase = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.WeePickleFromTos._
     import com.rallyhealth.weejson.v1.jackson.FromJson
@@ -114,7 +110,6 @@ class ADTReading extends ADTBenchmark {
     FromJson(jsonBytes).transform(ToScala[ADTBase])
   }
 
-  @Benchmark
   def zioJson(): ADTBase = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.ZioJSONEncoderDecoders._
     import zio.json._

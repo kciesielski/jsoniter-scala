@@ -4,7 +4,6 @@ import com.github.plokhotnyuk.jsoniter_scala.benchmark.GeoJSON._
 import org.openjdk.jmh.annotations.Benchmark
 
 class GeoJSONReading extends GeoJSONBenchmark {
-  @Benchmark
   def borer(): GeoJSON = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.BorerJsonEncodersDecoders._
     import io.bullet.borer.Json
@@ -20,23 +19,22 @@ class GeoJSONReading extends GeoJSONBenchmark {
     decodeByteArray[GeoJSON](jsonBytes).fold(throw _, identity)
   }
 
-  @Benchmark
   def circeJsoniter(): GeoJSON = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceEncodersDecoders._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
     import io.circe.Decoder
 
-    Decoder[GeoJSON].decodeJson(readFromArray(jsonBytes)).fold(throw _, identity)
+    Decoder[GeoJSON]
+      .decodeJson(readFromArray(jsonBytes))
+      .fold(throw _, identity)
   }
 
-  @Benchmark
   def jacksonScala(): GeoJSON = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
     jacksonMapper.readValue[GeoJSON](jsonBytes)
   }
-/* FIXME: json4s.jackson throws org.json4s.MappingException: Can't find ScalaSig for class com.github.plokhotnyuk.jsoniter_scala.benchmark.GeoJSON$FeatureCollection
-  @Benchmark
+  /* FIXME: json4s.jackson throws org.json4s.MappingException: Can't find ScalaSig for class com.github.plokhotnyuk.jsoniter_scala.benchmark.GeoJSON$FeatureCollection
   @annotation.nowarn
   def json4sJackson(): GeoJSON = {
     import org.json4s._
@@ -45,9 +43,8 @@ class GeoJSONReading extends GeoJSONBenchmark {
 
     mapper.readValue[JValue](jsonBytes, jValueType).extract[GeoJSON]
   }
-*/
-/* FIXME: json4s.native throws org.json4s.MappingException: Can't find ScalaSig for class com.github.plokhotnyuk.jsoniter_scala.benchmark.GeoJSON$FeatureCollection
-  @Benchmark
+   */
+  /* FIXME: json4s.native throws org.json4s.MappingException: Can't find ScalaSig for class com.github.plokhotnyuk.jsoniter_scala.benchmark.GeoJSON$FeatureCollection
   @annotation.nowarn
   def json4sNative(): GeoJSON = {
     import org.json4s._
@@ -57,7 +54,7 @@ class GeoJSONReading extends GeoJSONBenchmark {
 
     parse(new String(jsonBytes, UTF_8)).extract[GeoJSON]
   }
-*/
+   */
   @Benchmark
   def jsoniterScala(): GeoJSON = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
@@ -66,7 +63,6 @@ class GeoJSONReading extends GeoJSONBenchmark {
     readFromArray[GeoJSON](jsonBytes)
   }
 
-  @Benchmark
   def playJson(): GeoJSON = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
     import play.api.libs.json.Json
@@ -74,7 +70,6 @@ class GeoJSONReading extends GeoJSONBenchmark {
     Json.parse(jsonBytes).as[GeoJSON](geoJSONFormat)
   }
 
-  @Benchmark
   def playJsonJsoniter(): GeoJSON = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
@@ -83,7 +78,6 @@ class GeoJSONReading extends GeoJSONBenchmark {
     readFromArray(jsonBytes).as[GeoJSON](geoJSONFormat)
   }
 
-  @Benchmark
   def smithy4sJson(): GeoJSON = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.Smithy4sJCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -91,7 +85,6 @@ class GeoJSONReading extends GeoJSONBenchmark {
     readFromArray[GeoJSON](jsonBytes)
   }
 
-  @Benchmark
   def sprayJson(): GeoJSON = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.SprayFormats._
     import spray.json._
@@ -107,6 +100,12 @@ class GeoJSONReading extends GeoJSONBenchmark {
   }
 
   @Benchmark
+  def uPickleAst(): GeoJSON = {
+    import com.github.plokhotnyuk.jsoniter_scala.benchmark.UPickleReaderWriters._
+
+    readAst[GeoJSON](jsonBytes)
+  }
+
   def weePickle(): GeoJSON = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.WeePickleFromTos._
     import com.rallyhealth.weejson.v1.jackson.FromJson
@@ -115,7 +114,6 @@ class GeoJSONReading extends GeoJSONBenchmark {
     FromJson(jsonBytes).transform(ToScala[GeoJSON])
   }
 
-  @Benchmark
   def zioJson(): GeoJSON = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.ZioJSONEncoderDecoders._
     import zio.json._

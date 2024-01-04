@@ -4,7 +4,6 @@ import com.github.plokhotnyuk.jsoniter_scala.benchmark.TwitterAPI._
 import org.openjdk.jmh.annotations.Benchmark
 
 class TwitterAPIReading extends TwitterAPIBenchmark {
-  @Benchmark
   def borer(): Seq[Tweet] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.BorerJsonEncodersDecoders._
     import io.bullet.borer.Json
@@ -20,24 +19,23 @@ class TwitterAPIReading extends TwitterAPIBenchmark {
     decodeByteArray[Seq[Tweet]](jsonBytes).fold(throw _, identity)
   }
 
-  @Benchmark
   def circeJsoniter(): Seq[Tweet] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceEncodersDecoders._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.CirceJsoniterCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
     import io.circe.Decoder
 
-    Decoder[Seq[Tweet]].decodeJson(readFromArray[io.circe.Json](jsonBytes)).fold(throw _, identity)
+    Decoder[Seq[Tweet]]
+      .decodeJson(readFromArray[io.circe.Json](jsonBytes))
+      .fold(throw _, identity)
   }
 
-  @Benchmark
   def jacksonScala(): Seq[Tweet] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JacksonSerDesers._
 
     jacksonMapper.readValue[Seq[Tweet]](jsonBytes)
   }
-/* FIXME: json4s.jackson throws org.json4s.MappingException: No usable value for entities
-  @Benchmark
+  /* FIXME: json4s.jackson throws org.json4s.MappingException: No usable value for entities
   @annotation.nowarn
   def json4sJackson(): Seq[Tweet] = {
     import org.json4s._
@@ -46,9 +44,8 @@ class TwitterAPIReading extends TwitterAPIBenchmark {
 
     mapper.readValue[JValue](jsonBytes, jValueType).extract[Seq[Tweet]]
   }
-*/
-/* FIXME: json4s.native throws org.json4s.MappingException: No usable value for entities
-  @Benchmark
+   */
+  /* FIXME: json4s.native throws org.json4s.MappingException: No usable value for entities
   @annotation.nowarn
   def json4sNative(): Seq[Tweet] = {
     import org.json4s._
@@ -58,7 +55,7 @@ class TwitterAPIReading extends TwitterAPIBenchmark {
 
     parse(new String(jsonBytes, UTF_8)).extract[Seq[Tweet]]
   }
-*/
+   */
   @Benchmark
   def jsoniterScala(): Seq[Tweet] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.JsoniterScalaCodecs._
@@ -67,7 +64,6 @@ class TwitterAPIReading extends TwitterAPIBenchmark {
     readFromArray[Seq[Tweet]](jsonBytes)
   }
 
-  @Benchmark
   def playJson(): Seq[Tweet] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
     import play.api.libs.json.Json
@@ -75,7 +71,6 @@ class TwitterAPIReading extends TwitterAPIBenchmark {
     Json.parse(jsonBytes).as[Seq[Tweet]]
   }
 
-  @Benchmark
   def playJsonJsoniter(): Seq[Tweet] = {
     import com.evolutiongaming.jsonitertool.PlayJsonJsoniter._
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.PlayJsonFormats._
@@ -84,7 +79,6 @@ class TwitterAPIReading extends TwitterAPIBenchmark {
     readFromArray(jsonBytes).as[Seq[Tweet]]
   }
 
-  @Benchmark
   def smithy4sJson(): Seq[Tweet] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.Smithy4sJCodecs._
     import com.github.plokhotnyuk.jsoniter_scala.core._
@@ -92,7 +86,6 @@ class TwitterAPIReading extends TwitterAPIBenchmark {
     readFromArray[Seq[Tweet]](jsonBytes)
   }
 
-  @Benchmark
   def sprayJson(): Seq[Tweet] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.SprayFormats._
     import spray.json._
@@ -101,13 +94,12 @@ class TwitterAPIReading extends TwitterAPIBenchmark {
   }
 
   @Benchmark
-  def uPickle(): Seq[Tweet] = {
+  def uPickleAst(): Seq[Tweet] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.UPickleReaderWriters._
 
-    read[Seq[Tweet]](jsonBytes)
+    readAst[Seq[Tweet]](jsonBytes)
   }
 
-  @Benchmark
   def weePickle(): Seq[Tweet] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.WeePickleFromTos._
     import com.rallyhealth.weejson.v1.jackson.FromJson
@@ -116,7 +108,6 @@ class TwitterAPIReading extends TwitterAPIBenchmark {
     FromJson(jsonBytes).transform(ToScala[Seq[Tweet]])
   }
 
-  @Benchmark
   def zioJson(): Seq[Tweet] = {
     import com.github.plokhotnyuk.jsoniter_scala.benchmark.ZioJSONEncoderDecoders._
     import zio.json._
